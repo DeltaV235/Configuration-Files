@@ -98,6 +98,9 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+# some git alias
+alias gp='git graph'
+
 # auto remount correct filesystems
 umask 022
 dir='/mnt/d/testdir'

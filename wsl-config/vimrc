@@ -1,0 +1,5 @@
+set nu
+colorscheme molokai
+set autoindent
+syntax on
+set showcmd 
