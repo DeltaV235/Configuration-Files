@@ -1,5 +1,61 @@
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim Configuration
+
 set nu
-colorscheme molokai
+colorscheme gruvbox
 set autoindent
 syntax on
 set showcmd 
+set background=dark
+" autocmd VimEnter * NERDTree
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Map Setting
+
+" set Leader Key
+let mapleader=','
+
+" use jj to jump to normal mode
+" inoremap jj <Esc>
+
+" <leader>w map to :w
+inoremap <leader>w <Esc>:w<cr>
+nnoremap <leader>w :w<cr>
+
+" exit the whole vim
+nnoremap <leader>q :qa<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Bug Fix
+
+" fix display problem on $TERM=xterm-256color
+if &term =~ '256color'
+  set t_ut=
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Plug Manager
+
+call plug#begin('~/.vim/plugged')
+
+" plugins
+Plug 'mhinz/vim-startify'
+Plug 'scrooloose/nerdtree'
+Plug 'vim-airline/vim-airline'
+Plug 'yggdroot/indentline'
+
+" colorscheme
+Plug 'morhetz/gruvbox'
+
+call plug#end()
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" NERDTree Setting
+
+" Toggle NERDtree by press ,+t
+nnoremap <leader>t :NERDTreeToggle<cr>
+nnoremap <leader>f :NERDTreeFind<cr>
+let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\.swp']
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
