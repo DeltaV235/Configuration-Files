@@ -25,6 +25,9 @@ nnoremap <leader>w :w<cr>
 " exit the whole vim
 nnoremap <leader>q :qa<cr>
 
+" one tab equal 4 space
+" inoremap <tab> <space><space><space><space>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " Bug Fix
 
@@ -34,15 +37,19 @@ if &term =~ '256color'
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
-" Plug Manager
+" Plugins Manager
 
 call plug#begin('~/.vim/plugged')
 
 " plugins
-Plug 'mhinz/vim-startify'
-Plug 'scrooloose/nerdtree'
-Plug 'vim-airline/vim-airline'
-Plug 'yggdroot/indentline'
+Plug 'mhinz/vim-startify'                    	" provides a start screen for Vim and Neovim
+Plug 'scrooloose/nerdtree'			" a file system explorer for the Vim editor
+Plug 'vim-airline/vim-airline'			" change the default airline
+Plug 'yggdroot/indentline'			" show indent line
+Plug 'tpope/vim-surround'			" provides mappings to easily delete, change and add such surroundings in pairs
+Plug 'easymotion/vim-easymotion'		" a much simpler way to use some motions in vim
+Plug 'tpope/vim-commentary'			" comment code
+Plug 'airblade/vim-gitgutter'			" shows which lines have been added, modified, or removed
 
 " colorscheme
 Plug 'morhetz/gruvbox'
@@ -59,3 +66,10 @@ let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\.swp']
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-easymotion settiing
+
+nmap <Leader>s <Plug>(easymotion-s2)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""
+" vim-gitgutter setting
+set updatetime=100	" 100ms

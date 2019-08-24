@@ -1,0 +1,13 @@
+set relativenumber
+set showcmd
+set showmode
+set nu
+set keep-english-in-normal-and-restore-in-insert
+" set wildmode=list:longest,full  " 命令模式补全模式
+set surround
+set commentary
+
+" mapping
+let mapleader=","
+nnoremap <leader>w :wa<cr>
+inoremap <leader>w <Esc>:wa<cr>
