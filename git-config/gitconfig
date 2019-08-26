@@ -1,0 +1,13 @@
+[user]
+	name = DeltaV235
+	email = wuyue96@gmail.com
+[core]
+	editor = vim
+[alias]
+	last = log --all -3
+	graph = log --all --oneline --graph
+	amend = commit -a --no-edit --amend
+[http]
+	proxy = socks5://127.0.0.1:1080
+[commit]
+	template = /home/deltav/.gitmessage
