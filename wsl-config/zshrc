@@ -102,9 +102,6 @@ source $ZSH/oh-my-zsh.sh
 alias gp='git graph'
 alias pg='ps -aux|grep $1'
 
-# enable GPG key
-# export GPG_TTY=$(tty)
-
 # auto remount correct filesystems
 umask 022
 dir='/mnt/d/testdir'

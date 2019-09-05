@@ -1,12 +1,14 @@
 [user]
 	name = DeltaV235
 	email = wuyue96@gmail.com
+	signingkey = 0EADA0126BBEF463
 [core]
 	editor = vim
 [alias]
 	last = log --all -3
 	graph = log --all --oneline --graph
-	amend = commit -a --no-edit --amend
+	amend = commit -a --no-edit --amend -S
+	commit = commit -S
 [http]
 	proxy = socks5://127.0.0.1:1080
 [commit]
