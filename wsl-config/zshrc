@@ -106,6 +106,9 @@ alias gc='git commit -v -S'
 # enable GPG key for github
 export GPG_TTY=$(tty)
 
+# neovim replace vim
+alias vim='nvim'
+
 # auto remount correct filesystems
 umask 022
 dir='/mnt/d/testdir'

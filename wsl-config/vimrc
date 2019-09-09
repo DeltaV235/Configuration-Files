@@ -2,7 +2,7 @@
 " Vim Configuration
 
 set nu
-colorscheme gruvbox
+" colorscheme gruvbox
 set autoindent
 syntax on
 set showcmd 
