@@ -109,6 +109,9 @@ export GPG_TTY=$(tty)
 # neovim replace vim
 alias vim='nvim'
 
+# move files to a recycle directory instead of removing file directly
+alias rm='~/scripts/rm.sh'
+
 # auto remount correct filesystems
 umask 022
 dir='/mnt/d/testdir'

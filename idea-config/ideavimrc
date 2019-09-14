@@ -11,3 +11,4 @@ set commentary
 let mapleader=","
 nnoremap <leader>w :wa<cr>
 inoremap <leader>w <Esc>:wa<cr>
+nnoremap <leader>q :q<cr>
