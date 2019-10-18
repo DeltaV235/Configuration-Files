@@ -118,8 +118,10 @@ dir='/mnt/d/testdir'
 mkdir $dir 2>/dev/null
 if [ "$(ls -ld $dir | awk -F ' ' '{printf"%s",$1}')" = 'drwxrwxrwx' ];then
 	# ls -ld $dir | awk -F ' ' '{printf"%s",$1}'
+	# sudo /bin/umount /mnt/c
 	sudo /bin/umount /mnt/d
 	sudo /bin/umount /mnt/e
+	# sudo /bin/mount -t drvfs C: /mnt/c -o metadata,uid=1000,gid=1000,umask=22,fmask=111
 	sudo /bin/mount -t drvfs D: /mnt/d -o metadata,uid=1000,gid=1000,umask=22,fmask=111
 	sudo /bin/mount -t drvfs E: /mnt/e -o metadata,uid=1000,gid=1000,umask=22,fmask=111
 	echo 'Remount Windows FileSystems.'
