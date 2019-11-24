@@ -6,9 +6,12 @@ set keep-english-in-normal-and-restore-in-insert
 " set wildmode=list:longest,full  " 命令模式补全模式
 set surround
 set commentary
+set easymotion
 
 " mapping
 let mapleader=","
 nnoremap <leader>w :wa<cr>
 inoremap <leader>w <Esc>:wa<cr>
 nnoremap <leader>q :q<cr>
+map <leader><leader> <Plug>(easymotion-prefix)
+map <Leader>s <Plug>(easymotion-s2)
