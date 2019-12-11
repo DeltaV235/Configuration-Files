@@ -103,6 +103,10 @@ alias gp='git graph'
 alias pg='ps -aux|grep $1'
 alias gc='git commit -v -S'
 
+# alias
+alias df='df -h'
+alias free='free -h'
+
 # enable GPG key for github
 export GPG_TTY=$(tty)
 
