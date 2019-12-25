@@ -1,4 +1,4 @@
-set relativenumber
+" set relativenumber
 set showcmd
 set showmode
 set nu
