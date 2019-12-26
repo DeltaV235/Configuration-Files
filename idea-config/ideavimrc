@@ -13,5 +13,7 @@ let mapleader=","
 nnoremap <leader>w :wa<cr>
 inoremap <leader>w <Esc>:wa<cr>
 nnoremap <leader>q :q<cr>
+inoremap <leader><leader> <Esc>
 map <leader><leader> <Plug>(easymotion-prefix)
 map <Leader>s <Plug>(easymotion-s2)
+set ideajoin
