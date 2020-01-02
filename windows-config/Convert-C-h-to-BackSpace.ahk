@@ -1,3 +1,3 @@
-esc & h::
+<^h::
 send {Backspace}
 return
