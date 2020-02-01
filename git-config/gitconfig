@@ -4,6 +4,7 @@
 	signingkey = 0EADA0126BBEF463
 [core]
 	editor = vim
+	quotepath = false
 [alias]
 	last = log --all -3
 	graph = log --all --oneline --graph
