@@ -3,6 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="/home/deltav/.oh-my-zsh"
+export JAVA_HOME="/mnt/c/Program Files/Java/jdk-12.0.1"
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
