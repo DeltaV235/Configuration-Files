@@ -9,7 +9,8 @@ export JAVA_HOME="/mnt/c/Program Files/Java/jdk-12.0.1"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-ZSH_THEME="robbyrussell"
+ZSH_THEME="bira"
+# ZSH_THEME="robbyrussell"
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -69,7 +70,7 @@ ZSH_THEME="robbyrussell"
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
-plugins=(git zsh-completions zsh-autosuggestions zsh-syntax-highlighting)
+plugins=(git zsh-completions zsh-autosuggestions zsh-syntax-highlighting vi-mode)
 
 source $ZSH/oh-my-zsh.sh
 
@@ -99,10 +100,16 @@ source $ZSH/oh-my-zsh.sh
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
+###### User Define #####
+
+# enable vi mode for command line
+# set -o vi
+
 # some git alias
 alias gp='git graph'
 alias pg='ps -aux|grep $1'
 alias gc='git commit -v -S'
+alias gas='git add -u && git status'
 
 # alias
 alias df='df -h'
@@ -132,6 +139,9 @@ if [ "$(ls -ld $dir | awk -F ' ' '{printf"%s",$1}')" = 'drwxrwxrwx' ];then
 	echo 'Remount Windows FileSystems.'
 fi
 rmdir $dir
+
+# set proxy server
+export https_proxy=https://127.0.0.1:7890
 
 cd /home/deltav/
 source /home/deltav/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
