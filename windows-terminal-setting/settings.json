@@ -25,7 +25,9 @@
             // Put settings here that you want to apply to all profiles.
             "useAcrylic": true,
             "acrylicOpacity": 0.9,
-            "fontSize": 13
+            "fontSize": 13,
+            "fontFace" : "Consolas",
+            "cursorShape" : "bar"
         },
         "list": [
             {
