@@ -20,14 +20,14 @@
     "theme": "dark",
     "initialCols": 170,
     "initialRows": 55,
+    "initialPosition": "600,160",
     "profiles": {
         "defaults": {
             // Put settings here that you want to apply to all profiles.
             "useAcrylic": true,
             "acrylicOpacity": 0.9,
             "fontSize": 13,
-            "fontFace" : "Consolas",
-            "cursorShape" : "bar"
+            "cursorShape": "bar"
         },
         "list": [
             {
@@ -49,6 +49,7 @@
                 "hidden": false,
                 "name": "Ubuntu-18.04",
                 "source": "Windows.Terminal.Wsl"
+                // "cursorColor": "#000000"
             },
             {
                 "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
@@ -94,7 +95,7 @@
                 "split": "auto",
                 "splitMode": "duplicate"
             },
-            "keys": "alt+shift+d"
+            "keys": "alt+d"
         },
         {
             "command": "scrollUp",
