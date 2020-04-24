@@ -2,6 +2,7 @@
 " Vim Configuration
 
 set nu
+set rnu
 " colorscheme gruvbox
 set autoindent
 syntax on
@@ -73,3 +74,21 @@ nmap <Leader>s <Plug>(easymotion-s2)
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-gitgutter setting
 set updatetime=100	" 100ms
+
+" autocmd VimLeave * !'echo -ne "\e[1 q"'
+" au VimLeave * call nvim_cursor_set_shape("vertical-bar")
+" set guicursor=
+" autocmd VimLeave * let &t_me="\<Esc>]50;CursorShape=2\x7"
+
+" let g:togglecursor_default = "block"
+" let g:togglecursor_insert = "line"
+" let g:togglecursor_leave = "line"
+" let g:togglecursor_disable_tmux = 0
+" autocmd VimLeave * call system('printf "\e[1 q"')
+" hi Cursor guifg=#F8F8F8 guibg=#A7A7A7
+
+" enable highlight line where cursor is
+set cursorline
+highlight CursorLine guibg=darkgray ctermbg=darkgray
+set guicursor+=n:block25-blinkon1
+set guicursor+=i:ver25-blinkon1
