@@ -115,6 +115,8 @@ alias gas='git add -u && git status'
 alias df='df -h'
 alias free='free -h'
 
+alias ra='ranger'
+
 # enable GPG key for github
 export GPG_TTY=$(tty)
 
