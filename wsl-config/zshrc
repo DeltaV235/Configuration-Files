@@ -115,6 +115,9 @@ alias gas='git add -u && git status'
 alias df='df -h'
 alias free='free -h'
 
+# open windows explorer in current path
+alias ex='explorer.exe .'
+
 # enable GPG key for github
 export GPG_TTY=$(tty)
 
@@ -122,7 +125,7 @@ export GPG_TTY=$(tty)
 alias vim='nvim'
 
 # move files to a recycle directory instead of removing file directly
-alias rm='~/scripts/rm.sh'
+# alias rm='~/scripts/rm.sh'
 
 # auto remount correct filesystems
 umask 022
