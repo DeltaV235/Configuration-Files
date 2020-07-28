@@ -5,11 +5,12 @@
 [core]
 	editor = vim
 	quotepath = false
+	autocrlf = false
 [alias]
 	last = log --all -3
 	graph = log --all --oneline --graph
 	amend = commit -a --no-edit --amend -S
 [http]
-	proxy = socks5://127.0.0.1:7891
+	proxy = socks5://127.0.0.1:7890
 [commit]
 	template = /home/deltav/.gitmessage

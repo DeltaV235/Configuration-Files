@@ -118,6 +118,8 @@ alias free='free -h'
 # open windows explorer in current path
 alias ex='explorer.exe .'
 
+alias ra='ranger'
+
 # enable GPG key for github
 export GPG_TTY=$(tty)
 
