@@ -124,7 +124,8 @@ export GPG_TTY=$(tty)
 alias vim='nvim'
 
 # move files to a recycle directory instead of removing file directly
-alias rm='~/scripts/rm.sh'
+# alias rm='~/scripts/rm.sh'
+alias tp = 'trash-put'
 
 # auto remount correct filesystems
 umask 022
