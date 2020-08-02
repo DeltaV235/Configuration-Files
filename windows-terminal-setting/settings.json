@@ -48,8 +48,14 @@
                 "guid": "{c6eaf9f4-32a7-5fdc-b5cf-066e8a4b1e40}",
                 "hidden": false,
                 "name": "Ubuntu-18.04",
-                "source": "Windows.Terminal.Wsl"
-                // "cursorColor": "#000000"
+                "source": "Windows.Terminal.Wsl",
+                "icon": "X:\\home\\deltav\\config_file\\windows-terminal-setting\\windows-terminal-icon\\ubuntu-logo.png"
+            },
+            {
+                "hidden": false,
+                "name": "Tencent Cloud Server",
+                "commandline": "wsl ssh tVPS",
+                "icon": "X:\\home\\deltav\\config_file\\windows-terminal-setting\\windows-terminal-icon\\tencent-cloud-logo.png"
             },
             {
                 "guid": "{b453ae62-4e3d-5e58-b989-0a998ec441b8}",
