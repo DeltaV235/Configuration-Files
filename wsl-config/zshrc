@@ -115,6 +115,9 @@ alias gas='git add -u && git status'
 alias df='df -h'
 alias free='free -h'
 
+# open windows explorer in current path
+alias ex='explorer.exe .'
+
 alias ra='ranger'
 
 # enable GPG key for github
@@ -145,7 +148,7 @@ rmdir $dir
 
 # set proxy server
 export https_proxy=https://127.0.0.1:7890
-# export ALL_PROXY=socks5://127.0.0.1:7891
+export ALL_PROXY=socks5://127.0.0.1:7890
 
 cd /home/deltav/
 
