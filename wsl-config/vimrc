@@ -8,7 +8,21 @@ set autoindent
 syntax on
 set showcmd 
 set background=dark
+
+set nobackup
+set undofile
+set undodir=~/.vim/undodir
+
+" create undodir if not exists
+if !isdirectory(&undodir)
+	call mkdir(&undodir, 'p', 0700)
+endif
+
+" open nerdTree when vim start
 " autocmd VimEnter * NERDTree
+
+" enable highlight line where cursor is
+set cursorline
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""
 " Map Setting
@@ -87,8 +101,6 @@ set updatetime=100	" 100ms
 " autocmd VimLeave * call system('printf "\e[1 q"')
 " hi Cursor guifg=#F8F8F8 guibg=#A7A7A7
 
-" enable highlight line where cursor is
-set cursorline
 highlight CursorLine guibg=darkgray ctermbg=darkgray
 set guicursor+=n:block25-blinkon1
 set guicursor+=i:ver25-blinkon1
