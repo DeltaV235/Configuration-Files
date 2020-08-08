@@ -1,57 +1,4 @@
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Vim Configuration
-
-set nu
-set rnu
-" colorscheme gruvbox
-set autoindent
-syntax on
-set showcmd 
-set background=dark
-
-set nobackup
-set undofile
-set undodir=~/.vim/undodir
-
-" create undodir if not exists
-if !isdirectory(&undodir)
-	call mkdir(&undodir, 'p', 0700)
-endif
-
-" open nerdTree when vim start
-" autocmd VimEnter * NERDTree
-
-" enable highlight line where cursor is
-set cursorline
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Map Setting
-
-" set Leader Key
-let mapleader=','
-
-" use jj to jump to normal mode
-" inoremap jj <Esc>
-
-" <leader>w map to :w
-inoremap <leader>w <Esc>:w<cr>
-nnoremap <leader>w :w<cr>
-
-" exit the whole vim
-nnoremap <leader>q :qa<cr>
-
-" one tab equal 4 space
-" inoremap <tab> <space><space><space><space>
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Bug Fix
-
-" fix display problem on $TERM=xterm-256color
-if &term =~ '256color'
-  set t_ut=
-endif
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plugins Manager
 
 call plug#begin('~/.vim/plugged')
@@ -71,36 +18,118 @@ Plug 'morhetz/gruvbox'
 
 call plug#end()
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vim Configuration
+
+" set colorscheme to gruvbox
+colorscheme gruvbox
+
+" show related row number
+set nu
+set rnu
+
+
+" set auto indent
+set autoindent
+
+" set syntax highlight
+syntax on
+
+" show current command
+set showcmd 
+
+" set backgroud color to dark
+set background=dark
+
+" set undo operation over session
+set nobackup
+set undofile
+set undodir=~/.vim/undodir
+
+" create undodir if not exists
+if !isdirectory(&undodir)
+  call mkdir(&undodir, 'p', 0700)
+endif
+
+" enable highlight line where cursor is
+set cursorline
+
+" set file encoding character set sequence
+set fileencodings=ucs-bom,utf-8,gb18030,latin1
+
+" open nerdTree when vim start
+" autocmd VimEnter * NERDTree
+
+" enable selection, move cursor and scorll by mouse
+" when mouse select text, vim will go to visual mode and select text which mouse select
+" use Shift key to select text by terminal or Operation System
+if has('mouse')
+  if has('gui_running') || (&term =~ 'xterm' && !has('mac'))
+    set mouse=a
+  else
+    set mouse=nvi
+  endif
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Map Setting
+
+" set Leader Key
+let mapleader=','
+
+" use jj to jump to normal mode
+" inoremap jj <Esc>
+
+" <leader>w map to :w
+inoremap <leader>w <Esc>:w<cr>
+nnoremap <leader>w :w<cr>
+
+" exit the whole vim
+nnoremap <leader>q :qa<cr>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+" Bug Fix
+
+" fix display problem on $TERM=xterm-256color
+" if &term =~ '256color'
+"   set t_ut=
+" endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree Setting
 
-" Toggle NERDtree by press ,+t
+" Toggle NERDtree by press <lead> + t
 nnoremap <leader>t :NERDTreeToggle<cr>
 nnoremap <leader>f :NERDTreeFind<cr>
+
+" show hidden file
 let NERDTreeShowHidden=1
+
+" ignore file which end with .swp
 let NERDTreeIgnore=['\.swp']
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-easymotion settiing
 
 nmap <Leader>s <Plug>(easymotion-s2)
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""
+
+""""""""""""""""""""""""""""""""""""""""""""""""""
 " vim-gitgutter setting
+
 set updatetime=100	" 100ms
 
-" autocmd VimLeave * !'echo -ne "\e[1 q"'
-" au VimLeave * call nvim_cursor_set_shape("vertical-bar")
-" set guicursor=
-" autocmd VimLeave * let &t_me="\<Esc>]50;CursorShape=2\x7"
+""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" let g:togglecursor_default = "block"
-" let g:togglecursor_insert = "line"
-" let g:togglecursor_leave = "line"
-" let g:togglecursor_disable_tmux = 0
-" autocmd VimLeave * call system('printf "\e[1 q"')
-" hi Cursor guifg=#F8F8F8 guibg=#A7A7A7
-
-highlight CursorLine guibg=darkgray ctermbg=darkgray
-set guicursor+=n:block25-blinkon1
-set guicursor+=i:ver25-blinkon1
+" highlight CursorLine guibg=darkgray ctermbg=darkgray
+" set guicursor+=n:block25-blinkon1
+" set guicursor+=i:ver25-blinkon1
