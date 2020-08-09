@@ -1,2 +1,4 @@
 Esc : Caps Lock;
-Caps Lock : Esc;
+Caps Lock : Left Ctrl; 
+Left Ctrl : `;
+` : Esc;
