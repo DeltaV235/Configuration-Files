@@ -147,7 +147,7 @@ fi
 rmdir $dir
 
 # set proxy server
-export https_proxy=https://127.0.0.1:7890
+# export https_proxy=https://127.0.0.1:7890
 export ALL_PROXY=socks5://127.0.0.1:7890
 
 cd /home/deltav/
@@ -159,5 +159,29 @@ reset-cursor() {
 }
 export PS1="$(reset-cursor)$PS1"
 # echo -ne "\e[1 q"
+
+# navi
+# To add the Ctrl-G keybinding
+
+_call_navi() {
+  local selected
+  if [ -n "$LBUFFER" ]; then
+    if selected="$(printf "%s" "$(navi --print --no-autoselect query "${LBUFFER}" </dev/tty)")"; then
+      LBUFFER="$selected"
+    fi
+  else
+    if selected="$(printf "%s" "$(navi --print </dev/tty)")"; then
+      LBUFFER="$selected"
+    fi
+  fi
+  zle redisplay
+}
+
+zle -N _call_navi
+
+bindkey '^g' _call_navi
+
+# fzf
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 source /home/deltav/.oh-my-zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
