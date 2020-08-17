@@ -108,7 +108,7 @@ source $ZSH/oh-my-zsh.sh
 # some git alias
 alias gp='git graph'
 alias pg='ps -aux|grep $1'
-alias gc='git commit -v -S'
+alias gc='git commit -v'
 alias gas='git add -u && git status'
 
 # alias
@@ -124,7 +124,7 @@ alias ra='ranger'
 export GPG_TTY=$(tty)
 
 # neovim replace vim
-alias vim='nvim'
+# alias vim='nvim'
 
 # move files to a recycle directory instead of removing file directly
 # alias rm='~/scripts/rm.sh'
