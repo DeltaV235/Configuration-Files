@@ -18,9 +18,9 @@
     //   and can be invoked from the commandline with `wt.exe -p xxx`
     // To learn more about profiles, visit https://aka.ms/terminal-profile-settings
     "theme": "dark",
-    "initialCols": 170,
-    "initialRows": 55,
-    "initialPosition": "600,160",
+    "initialCols": 210,
+    "initialRows": 60,
+    "initialPosition": "370,130",
     "profiles": {
         "defaults": {
             // Put settings here that you want to apply to all profiles.
