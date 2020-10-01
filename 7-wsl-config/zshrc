@@ -130,6 +130,9 @@ alias vim='nvim'
 # alias rm='~/scripts/rm.sh'
 alias tp='trash-put'
 
+# instead df command with duf which show more readable information about file system usage
+alias df='duf'
+
 # auto remount correct filesystems
 umask 022
 dir='/mnt/d/testdir'
