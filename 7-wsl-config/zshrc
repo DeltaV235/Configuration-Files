@@ -112,7 +112,9 @@ alias gc='git commit -v -S'
 alias gas='git add -u && git status'
 
 # alias
-alias df='df -h'
+
+# supersession
+# alias df='df -h'
 alias free='free -h'
 
 # open windows explorer in current path
