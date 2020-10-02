@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### descrption: create user by input username
+### description: create user by input username
 ### create time: 2020-10-01 (yyyy-MM-dd)
 ### author: deltaV235
 

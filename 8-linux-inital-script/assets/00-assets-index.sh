@@ -1,14 +1,15 @@
 #!/bin/bash
 
-### descrption: assests index, import all assest file
+### description: assets index, import all assets file
 ### create time: 2020-10-02 (yyyy-MM-dd)
 ### author: deltaV235
 
-source ./01-ansi-escape-code.sh
+# shellcheck source=./01-ansi-escape-code.sh
+source "${PWD}"/assets/01-ansi-escape-code.sh
 
 echo -e "${LIGHT_BLUE}--------------------------- SYSTEM INFORMATION ---------------------------${NC}"
 
-source ./02-get-distribution-name.sh
-source ./03-get-package-manager.sh
+source "${PWD}"/assets/02-get-distribution-name.sh
+source "${PWD}"/assets/03-get-package-manager.sh
 
 echo -e "${LIGHT_BLUE}--------------------------------------------------------------------------${NC}"

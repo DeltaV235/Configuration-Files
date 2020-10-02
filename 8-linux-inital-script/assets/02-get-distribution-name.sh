@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### descrption: get distribution name
+### description: get distribution name
 ### create time: 2020-10-02 (yyyy-MM-dd)
 ### author: deltaV235
 

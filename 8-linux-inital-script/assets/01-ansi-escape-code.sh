@@ -1,6 +1,6 @@
 #!/bin/bash
 
-### descrption: ansi escape
+### description: ansi escape
 ### create time: 2020-10-02 (yyyy-MM-dd)
 ### author: deltaV235
 
