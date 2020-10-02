@@ -7,4 +7,3 @@
 source ./assets/00-assets-index.sh
 
 bash ./01-change-package-download-mirror-to-local.sh
-

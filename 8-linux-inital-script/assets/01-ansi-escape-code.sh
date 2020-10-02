@@ -21,6 +21,5 @@ LIGHT_PURPLE="\033[1;35m"
 LIGHT_CYAN="\033[1;36m"
 WHITE="\033[1;37m"
 
-
 # No Color
-NC="\033[0m" 
+NC="\033[0m"

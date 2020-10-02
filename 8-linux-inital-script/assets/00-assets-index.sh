@@ -7,4 +7,3 @@
 source ./01-ansi-escape-code.sh
 source ./02-get-distribution-name.sh
 source ./03-get-package-manager.sh
-

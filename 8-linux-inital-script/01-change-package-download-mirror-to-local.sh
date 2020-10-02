@@ -5,4 +5,3 @@
 ### author: deltaV235
 
 echo ${OS_NAME}
-

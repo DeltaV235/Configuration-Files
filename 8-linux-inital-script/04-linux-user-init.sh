@@ -11,8 +11,8 @@ clear
 
 echo -e "${YELLOW}------------------ create user (need root permision) ------------------${NC}"
 read -p "please enter username: " username
-sudo useradd -m $username \
-	&& echo -e "${LIGHT_GREEN}create user success${NC}" \
-	|| echo -e "${RED}create user failed${NC}"
+sudo useradd -m $username &&
+  echo -e "${LIGHT_GREEN}create user success${NC}" ||
+  echo -e "${RED}create user failed${NC}"
 echo -e "${YELLOW}------------------ create user finish ------------------${NC}"
 read -n1 "${LIGHT_CYAN}press any key to continue${NC}"
