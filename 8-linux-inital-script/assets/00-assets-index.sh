@@ -12,5 +12,6 @@ echo -e "${LIGHT_BLUE}--------------------------- SYSTEM INFORMATION -----------
 source "${PWD}"/assets/02-get-distribution-name.sh
 source "${PWD}"/assets/03-get-package-manager.sh
 source "${PWD}"/assets/04-get-cpu-info.sh
+source "${PWD}"/assets/05-get-memory-info.sh
 
 echo -e "${LIGHT_BLUE}--------------------------------------------------------------------------${NC}"
