@@ -1,0 +1,11 @@
+# This is Git's per-user configuration file.
+[user]
+# Please adapt and uncomment the following lines:
+	name = DeltaV235
+	email = wuyue96@gmail.com
+[commit]
+	template = /Users/deltav/.gitmessage
+[alias]
+	last = log --all -3
+	graph = log --all --oneline --graph
+	amend = commit -a --no-edit --amend
