@@ -1,0 +1,152 @@
+" options and mappings that are supported by both Vim and IdeaVim
+set nu
+set relativenumber
+
+if has('ide')
+    " mappings and options that exist only in IdeaVim
+    map <leader>g <Action>(GotoFile)
+    map <leader>f <Action>(FindInPath)
+    map <leader>s <Action>(Switcher)
+
+    if &ide =~? 'intellij idea'
+        "" -- Suggested options --
+        " Show a few lines of context around the cursor. Note that this makes the
+        " text scroll if you mouse-click near the start or end of the window.
+        set scrolloff=5
+
+        " Do incremental searching.
+        set incsearch
+
+        " Don't use Ex mode, use Q for formatting.
+        map Q gq
+
+
+        "" -- Map IDE actions to IdeaVim -- https://jb.gg/abva4t
+        "" Map <leader> f to the Reformat Code action
+        map <leader>r <Action>(ReformatCode)
+
+        "" Map <leader>d to start debug
+        map <leader>d <Action>(Debug)
+
+        "" Map <leader>b to toggle the breakpoint on the current line
+        map <leader>b <Action>(ToggleLineBreakpoint)
+
+
+        " Find more examples here: https://jb.gg/share-ideavimrc
+
+        set surround
+        set commentary
+        set easymotion
+        set NERDTree
+
+        " mapping
+        let mapleader=","
+        nnoremap <leader>w :wa<cr>
+        inoremap <leader>w <Esc>:wa<cr>
+        nnoremap <leader>q :q<cr>
+
+        " NERDTree
+        map <leader>1 :NERDTree<cr>
+        " easymotion
+        map <Leader>s <Plug>(easymotion-s2)
+
+    elseif &ide =~? 'pycharm'
+    " PyCharm specific mappings and options
+    endif
+else
+    " some mappings for Vim/Neovim
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""
+    " Plugins Manager
+
+    call plug#begin()
+
+    " plugins
+    Plug 'mhinz/vim-startify'                    	" provides a start screen for Vim and Neovim
+    " Plug 'scrooloose/nerdtree'			" a file system explorer for the Vim editor
+    Plug 'vim-airline/vim-airline'			" change the default airline
+    " Plug 'yggdroot/indentline'			" show indent line
+    Plug 'tpope/vim-surround'			" provides mappings to easily delete, change and add such surroundings in pairs
+    Plug 'easymotion/vim-easymotion'		" a much simpler way to use some motions in vim
+    Plug 'tpope/vim-commentary'			" comment code
+    Plug 'airblade/vim-gitgutter'			" shows which lines have been added, modified, or removed
+
+    " colorscheme
+    Plug 'morhetz/gruvbox'
+    Plug 'dracula/vim', { 'as': 'dracula' }
+
+
+    call plug#end()
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""
+    " Vim Configuration
+
+    " set colorscheme to gruvbox
+    " colorscheme dracula
+    colorscheme gruvbox
+
+    " show related row number
+    set nu
+    set rnu
+
+    " set auto indent
+    set autoindent
+
+    " set syntax highlight
+    syntax on
+
+    " show existing tab with 4 spaces width
+    set tabstop=4
+    " when indenting with '>', use 4 spaces width
+    set shiftwidth=4
+    " On pressing tab, insert 4 spaces
+    set expandtab
+
+    " show current command
+    set showcmd
+
+    " set backgroud color to dark
+    " set background=dark
+
+    " enable highlight line where cursor is
+    set cursorline
+
+    " set undo operation over session
+    set nobackup
+    set undofile
+    set undodir=~/.vim/undodir
+
+    " create undodir if not exists
+    if !isdirectory(&undodir)
+      call mkdir(&undodir, 'p', 0700)
+    endif
+
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""
+    " Map Setting
+
+    " set Leader Key
+    let mapleader=','
+
+    " use jj to jump to normal mode
+    " inoremap jj <Esc>
+
+    " <leader>w map to :w
+    inoremap <leader>w <Esc>:w<cr>
+    nnoremap <leader>w :w<cr>
+
+    " exit the whole vim
+    nnoremap <leader>q :qa<cr>
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""
+    " vim-easymotion settiing
+
+    nmap <Leader>s <Plug>(easymotion-s2)
+
+    """"""""""""""""""""""""""""""""""""""""""""""""""
+endif
+
