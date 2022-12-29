@@ -62,13 +62,13 @@ else
     call plug#begin()
 
     " plugins
-    Plug 'mhinz/vim-startify'                    	" provides a start screen for Vim and Neovim
+    Plug 'mhinz/vim-startify'               " provides a start screen for Vim and Neovim
     " Plug 'scrooloose/nerdtree'			" a file system explorer for the Vim editor
     Plug 'vim-airline/vim-airline'			" change the default airline
     " Plug 'yggdroot/indentline'			" show indent line
-    Plug 'tpope/vim-surround'			" provides mappings to easily delete, change and add such surroundings in pairs
+    Plug 'tpope/vim-surround'			    " provides mappings to easily delete, change and add such surroundings in pairs
     Plug 'easymotion/vim-easymotion'		" a much simpler way to use some motions in vim
-    Plug 'tpope/vim-commentary'			" comment code
+    Plug 'tpope/vim-commentary'			    " comment code
     Plug 'airblade/vim-gitgutter'			" shows which lines have been added, modified, or removed
 
     " colorscheme
