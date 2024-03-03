@@ -8,7 +8,8 @@ if has('ide')
     map <leader>f <Action>(FindInPath)
     map <leader>s <Action>(Switcher)
 
-    set keep-english-in-normal-and-restore-in-insert
+    set keep-english-in-normal
+    set ideajoin
 
     if &ide =~? 'intellij idea'
         "" -- Suggested options --
