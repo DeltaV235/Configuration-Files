@@ -117,5 +117,7 @@ alias gas='git add -u && git status'
 
 alias pg='ps -ef|grep $1'
 
+alias mv='mv -v'
+
 source /Users/deltav/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 eval "$(starship init zsh)"
