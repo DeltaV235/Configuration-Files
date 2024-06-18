@@ -1,12 +1,16 @@
 " options and mappings that are supported by both Vim and IdeaVim
 set nu
 set relativenumber
+"
+" set Leader Key
+let mapleader=','
+
 
 if has('ide')
     " mappings and options that exist only in IdeaVim
     map <leader>g <Action>(GotoFile)
     map <leader>f <Action>(FindInPath)
-    map <leader>s <Action>(Switcher)
+    map <leader>e <Action>(Switcher)
 
     set keep-english-in-normal
     set ideajoin
@@ -129,9 +133,6 @@ else
 
     """"""""""""""""""""""""""""""""""""""""""""""""""
     " Map Setting
-
-    " set Leader Key
-    let mapleader=','
 
     " use jj to jump to normal mode
     " inoremap jj <Esc>
