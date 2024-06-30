@@ -1,16 +1,15 @@
 " options and mappings that are supported by both Vim and IdeaVim
 set nu
 set relativenumber
-"
+
 " set Leader Key
 let mapleader=','
-
 
 if has('ide')
     " mappings and options that exist only in IdeaVim
     map <leader>g <Action>(GotoFile)
     map <leader>f <Action>(FindInPath)
-    map <leader>e <Action>(Switcher)
+    map <leader>s <Action>(Switcher)
 
     set keep-english-in-normal
     set ideajoin
