@@ -3,6 +3,7 @@
 
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
+export STARSHIP_CONFIG=~/.config/starship.toml
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
@@ -118,6 +119,8 @@ alias gas='git add -u && git status'
 alias pg='ps -ef|grep $1'
 
 alias mv='mv -v'
+
+alias code='/Applications/Visual\ Studio\ Code.app/Contents/MacOS/Electron'
 
 source /Users/deltav/.oh-my-zsh/custom/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 eval "$(starship init zsh)"
