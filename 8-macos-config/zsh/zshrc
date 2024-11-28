@@ -6,7 +6,7 @@ export ZSH="$HOME/.oh-my-zsh"
 export STARSHIP_CONFIG=~/.config/starship.toml
 
 # Proxy for Shell
-export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
+# export https_proxy=http://127.0.0.1:7890 http_proxy=http://127.0.0.1:7890 all_proxy=socks5://127.0.0.1:7890
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,
