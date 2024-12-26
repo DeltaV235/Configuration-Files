@@ -92,6 +92,8 @@ else
     " set colorscheme to gruvbox
     " colorscheme dracula
     colorscheme gruvbox
+    " set backgroud to dark mode
+    set background=dark
 
     " show related row number
     set nu
