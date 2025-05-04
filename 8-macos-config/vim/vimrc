@@ -14,11 +14,11 @@ if has('ide')
     set keep-english-in-normal
     set ideajoin
 
-    if &ide =~? 'intellij idea'
+    if &ide =~? 'intellij idea' or  &ide =~? 'pycharm'
         "" -- Suggested options --
         " Show a few lines of context around the cursor. Note that this makes the
         " text scroll if you mouse-click near the start or end of the window.
-        set scrolloff=5
+        set scrolloff=10
 
         " Do incremental searching.
         set incsearch
@@ -56,7 +56,7 @@ if has('ide')
         " easymotion
         map <Leader>s <Plug>(easymotion-s2)
 
-    elseif &ide =~? 'pycharm'
+    " elseif &ide =~? 'pycharm'
     " PyCharm specific mappings and options
     endif
 else
