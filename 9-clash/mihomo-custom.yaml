@@ -40,7 +40,7 @@ proxy-providers:
 
   2.primary2:
     url: ""
-    path: ./proxy_provider/p3.yaml
+    path: ./proxy_provider/p2.yaml
     lazy: true
     <<: *dy
     override:
@@ -50,7 +50,7 @@ proxy-providers:
 
   3.backup1:
     url: ""
-    path: ./proxy_provider/p2.yaml
+    path: ./proxy_provider/b1.yaml
     lazy: true
     <<: *dy
     override:
@@ -60,7 +60,7 @@ proxy-providers:
 
   # 4.backup2: 
   #   url: ""
-  #   path: ./proxy_provider/p4.yaml
+  #   path: ./proxy_provider/b2.yaml
   #   <<: *dy
   #   override:
   #     additional-prefix: "b2-"
