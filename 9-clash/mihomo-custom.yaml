@@ -1,15 +1,15 @@
 # **=============================== 代理配置 ===============================**
 # 机场/代理提供者设置，用于从不同的来源提供代理节点
-dy: &dy
+primary-provider-template: &primary-provider-template
   type: http
   udp: true
   interval: 86400
   proxy: DIRECT
-  lazy: false
   health-check:
     enable: true
+    lazy: false
     url: https://www.gstatic.com/generate_204
-    interval: 620
+    interval: 600
   # ⚠️ smux 多路复用：部分机场不支持，如连接失败请注释本段
   # 稳定性出现问题，可以尝试切换为 smux4 或禁用 padding。
   smux: # smux（连接复用，提升多路复用效率，减少握手）
@@ -17,14 +17,25 @@ dy: &dy
     padding: true # 增加随机数据，防探测（推荐开）
     protocol: smux # 或 smux4
 
-all_proxy_providers: &all_proxy_providers # **所有订阅组引用**
+backup-provider-template: &backup-provider-template
+  type: http
+  udp: true
+  interval: 86400
+  proxy: DIRECT
+  health-check:
+    enable: true
+    lazy: false
+    url: https://www.gstatic.com/generate_204
+    interval: 43200
+
+all-proxy-providers: &all-proxy-providers # **所有订阅组引用**
   use:
     - 1.primary1
     - 2.primary2
     - 3.backup1
     # - 4.backup2
 
-primary_proxy_providers: &primary_proxy_providers # **主用订阅组引用**
+primary-proxy-providers: &primary-proxy-providers # **主用订阅组引用**
   use:
     - 1.primary1
     - 2.primary2
@@ -34,34 +45,28 @@ proxy-providers:
   1.primary1:
     url: ""
     path: ./proxy_provider/p1.yaml
-    <<: *dy
+    <<: *primary-provider-template
     override:
       additional-prefix: "p1-"
 
   2.primary2:
     url: ""
     path: ./proxy_provider/p2.yaml
-    lazy: true
-    <<: *dy
+    <<: *primary-provider-template
     override:
       additional-prefix: "p2-"
-      health-check:
-        enable: false
 
   3.backup1:
     url: ""
     path: ./proxy_provider/b1.yaml
-    lazy: true
-    <<: *dy
+    <<: *backup-provider-template
     override:
       additional-prefix: "b1-"
-      health-check:
-        enable: false
 
   # 4.backup2: 
   #   url: ""
   #   path: ./proxy_provider/b2.yaml
-  #   <<: *dy
+  #   <<: *backup-provider-template
   #   override:
   #     additional-prefix: "b2-"
 
@@ -196,14 +201,11 @@ pg: &pg
     - 香港故转
     - 美国故转
     - 新加坡故转
-    - 香港均衡加速
-    - 美国均衡加速
-    - 新加坡均衡加速
-    - 日本均衡加速
-    - 台湾均衡加速
     - 香港自动
     - 美国自动
     - 新加坡自动
+    - 日本自动
+    - 台湾自动
     - 自动选择
     - 香港节点
     - 美国节点
@@ -213,12 +215,12 @@ pg: &pg
     - 全部节点
     - DIRECT
 
-rtt-balance-template: &rtt-lb 
+auto-select-group-template: &auto-select-group-template 
   type: url-test 
-  <<: *primary_proxy_providers
+  <<: *primary-proxy-providers
   lazy: false
   interval: 300
-  tolerance: 25
+  tolerance: 30
   url: 'https://www.gstatic.com/generate_204'
 
 
@@ -230,14 +232,11 @@ proxy-groups:
       - 香港故转
       - 美国故转
       - 新加坡故转
-      - 香港均衡加速
-      - 美国均衡加速
-      - 新加坡均衡加速
-      - 日本均衡加速
-      - 台湾均衡加速
       - 香港自动
       - 美国自动
       - 新加坡自动
+      - 日本自动
+      - 台湾自动
       - 自动选择
       - 香港节点
       - 美国节点
@@ -258,7 +257,7 @@ proxy-groups:
   # --- AI_稳定节点：针对 AI 服务优化，优先保持IP稳定 ---
   - name: AI_稳定节点
     type: fallback # 策略类型：故障转移，优先使用列表中的第一个可用节点
-    <<: *primary_proxy_providers 
+    <<: *primary-proxy-providers 
     url: https://cp.cloudflare.com/generate_204 
     interval: 7200 # 测速间隔：2 小时 (7200 秒)，降低节点切换频率，有助于保持IP稳定性
     strategy: consistent-hashing # 一致性哈希,减少IP波动。
@@ -275,7 +274,7 @@ proxy-groups:
   # --- AI_自动优选：AI 稳定节点失效时的备用方案，追求最佳速度 ---
   - name: AI_自动优选
     type: url-test 
-    <<: *primary_proxy_providers 
+    <<: *primary-proxy-providers 
     url: https://cp.cloudflare.com/generate_204 # 节点健康检查URL (或更针对 AI 服务的测速URL)
     interval: 3600 # 测速间隔延长至 1 小时 (3600 秒)，平衡速度与资源消耗,降低切换频率
     tolerance: 50 # RTT 容忍度：适度允许延迟波动，避免过于频繁的切换
@@ -291,7 +290,7 @@ proxy-groups:
 
   - name: Anthropic
     type: fallback # 策略类型：故障转移，优先使用列表中的第一个可用节点
-    <<: *primary_proxy_providers 
+    <<: *primary-proxy-providers 
     url: https://cp.cloudflare.com/generate_204 
     interval: 7200 # 测速间隔：2 小时 (7200 秒)，降低节点切换频率，有助于保持IP稳定性
     strategy: consistent-hashing # 一致性哈希,减少IP波动。
@@ -314,9 +313,9 @@ proxy-groups:
       proxies:
         [
           美国故转,
-          美国均衡加速,
+          美国自动,
           新加坡故转,
-          新加坡均衡加速,
+          新加坡自动,
           美国节点,
           新加坡节点,
           日本节点,
@@ -335,7 +334,7 @@ proxy-groups:
   - name: Netflix
     hidden: true
     type: url-test
-    <<: *primary_proxy_providers # 引用主用订阅组的节点，包含了所有机场节点
+    <<: *primary-proxy-providers # 引用主用订阅组的节点，包含了所有机场节点
     url: https://cp.cloudflare.com/generate_204
     interval: 300
     tolerance: 50
@@ -347,7 +346,7 @@ proxy-groups:
   - name: Disney+
     hidden: true
     type: url-test
-    <<: *primary_proxy_providers
+    <<: *primary-proxy-providers
     url: https://www.disneyplus.com/robots.txt
     interval: 300
     tolerance: 50
@@ -381,33 +380,33 @@ proxy-groups:
 
   # 🧪 高阶智能均衡测速组（支持 RTT+轮询，Android / macOS 均兼容）
   - {
-      name: 香港均衡加速,
-      <<: *rtt-lb,
+      name: 香港自动,
+      <<: *auto-select-group-template,
       filter: "(?i)(香港|hk|🇭🇰|hong\\s?kong)",
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png",
     }
   - {
-      name: 美国均衡加速,
-      <<: *rtt-lb,
+      name: 美国自动,
+      <<: *auto-select-group-template,
       filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)",
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png",
     }
   - {
-      name: 新加坡均衡加速,
-      <<: *rtt-lb,
+      name: 新加坡自动,
+      <<: *auto-select-group-template,
       filter: "(?i)(🇸🇬|新加坡|狮城|SG|Singapore)",
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png",
     }
 
   - {
-      name: 日本均衡加速,
-      <<: *rtt-lb,
+      name: 日本自动,
+      <<: *auto-select-group-template,
       filter: "(?i)(🇯🇵|日本|東京|东京|JP|japan|tokyo|osaka)",
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png",
     }
   - {
-      name: 台湾均衡加速,
-      <<: *rtt-lb,
+      name: 台湾自动,
+      <<: *auto-select-group-template,
       filter: "(?i)(台湾|台灣|台北|臺北|TW|taiwan|taipei|taichung|kaohsiung|tpe|khh|tch)",
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png",
     }
@@ -415,62 +414,30 @@ proxy-groups:
   - {
       name: 香港故转,
       type: fallback,
-      <<: *primary_proxy_providers,
+      <<: *primary-proxy-providers,
       filter: "(?i)(香港|hk|🇭🇰|hong\\s?kong)",
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png",
     }
   - {
       name: 美国故转,
       type: fallback,
-      <<: *primary_proxy_providers,
+      <<: *primary-proxy-providers,
       filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)",
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png",
     }
   - {
       name: 新加坡故转,
       type: fallback,
-      <<: *primary_proxy_providers,
+      <<: *primary-proxy-providers,
       filter: "(?i)(🇸🇬|新加坡|狮城|SG|Singapore)",
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png",
     }
 
-  - {
-      name: 香港自动,
-      type: url-test,
-      <<: *primary_proxy_providers,
-      include-all: false,
-      tolerance: 100,
-      interval: 600,
-      lazy: true,
-      filter: "(?i)(香港|hk|🇭🇰|hong\\s?kong)",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png",
-    }
-  - {
-      name: 美国自动,
-      type: url-test,
-      <<: *primary_proxy_providers,
-      include-all: false,
-      tolerance: 100,
-      interval: 600,
-      lazy: true,
-      filter: "(?i)(🇺🇸|美国|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png",
-    }
-  - {
-      name: 新加坡自动,
-      type: url-test,
-      <<: *primary_proxy_providers,
-      include-all: false,
-      tolerance: 100,
-      interval: 600,
-      lazy: true,
-      filter: "(?i)(🇸🇬|新加坡|狮城|SG|Singapore)",
-      icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Singapore.png",
-    }
+  
 
   - name: 自动选择
     type: url-test
-    <<: *primary_proxy_providers
+    <<: *primary-proxy-providers
     url: https://cp.cloudflare.com/generate_204
     include-all: false
     tolerance: 50
@@ -478,11 +445,8 @@ proxy-groups:
     lazy: false
     health-check:
       enable: true
-      interval: 900
+      interval: 400
       url: https://cp.cloudflare.com/generate_204
-      method: HEAD
-      timeout: 5
-      expected-status: "204"
     filter: "(?i)^((?!(DIRECT|Proxy|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local)).)*$"
     icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/urltest.png"
 
@@ -490,7 +454,7 @@ proxy-groups:
   - {
       name: 香港节点,
       type: select,
-      <<: *all_proxy_providers,
+      <<: *all-proxy-providers,
       skip-cert-verify: true,
       include-all: true,
       filter: "(?i)(香港|hk|🇭🇰|hong\\s?kong)",
@@ -499,7 +463,7 @@ proxy-groups:
   - {
       name: 美国节点,
       type: select,
-      <<: *all_proxy_providers,
+      <<: *all-proxy-providers,
       skip-cert-verify: true,
       include-all: true,
       filter: "(?i)(🇺🇸|美国|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)",
@@ -508,7 +472,7 @@ proxy-groups:
   - {
       name: 新加坡节点,
       type: select,
-      <<: *all_proxy_providers,
+      <<: *all-proxy-providers,
       skip-cert-verify: true,
       include-all: true,
       filter: "(?i)(🇸🇬|新加坡|狮城|SG|Singapore)",
@@ -517,7 +481,7 @@ proxy-groups:
   - {
       name: 日本节点,
       type: select,
-      <<: *all_proxy_providers,
+      <<: *all-proxy-providers,
       skip-cert-verify: true,
       include-all: true,
       filter: "(?i)(🇯🇵|日本|東京|东京|JP|japan|tokyo|osaka)",
@@ -527,7 +491,7 @@ proxy-groups:
   - {
       name: 台湾节点,
       type: select,
-      <<: *all_proxy_providers,
+      <<: *all-proxy-providers,
       skip-cert-verify: true,
       include-all: true,
       filter: "(?i)(台湾|台灣|台北|臺北|TW|taiwan|taipei|taichung|kaohsiung|tpe|khh|tch)",
@@ -537,7 +501,7 @@ proxy-groups:
   - {
       name: 其他节点,
       type: select,
-      <<: *all_proxy_providers,
+      <<: *all-proxy-providers,
       skip-cert-verify: true,
       include-all: true,
       lazy: true,
@@ -548,7 +512,7 @@ proxy-groups:
   - {
       name: 全部节点,
       type: select,
-      <<: *all_proxy_providers,
+      <<: *all-proxy-providers,
       icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/World_Map.png",
       include-all: true,
       filter: "(?i)^((?!(DIRECT|Proxy|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local)).)*$",
