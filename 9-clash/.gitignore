@@ -1,0 +1,9 @@
+# Providers & secrets
+proxy_provider/
+proxy-providers-info.yaml
+
+# OS & editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

@@ -1,2 +1,9 @@
 # Apple Desktop Services Store
 .DS_Store
+
+# Archives & backups
+*.gz
+*.zip
+*.rar
+*.7z
+*.bak
