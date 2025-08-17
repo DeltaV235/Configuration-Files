@@ -324,6 +324,12 @@ proxy-groups:
     <<: *pg
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png"
 
+  - name: Google
+    hidden: false
+    type: select
+    <<: *pg
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google.png"
+
   - name: Telegram
     hidden: false
     type: select
@@ -502,6 +508,7 @@ rules:
   - RULE-SET,geoip_cloudfront,DIRECT,no-resolve # Cloudfront IP 直连
 
   # 明确的代理IP规则，确保相关服务流量不泄漏
+  - RULE-SET,google_ip,Google,no-resolve          # Google IP 走 Google
   - RULE-SET,telegram_ip,Telegram,no-resolve         # Telegram IP 强制走代理，不加no-resolve会dns泄漏。
   - RULE-SET,Telegram_No_Resolve,Telegram,no-resolve # Telegram 无需解析的规则
   - RULE-SET,geoip_cloudflare,AI,no-resolve          # Cloudflare IP 导向 AI
@@ -550,6 +557,7 @@ rules:
   - RULE-SET,disney_domain,Disney+  # Disney 域名
 
   # 服务类
+  - RULE-SET,google_domain,Google    # Google 域名
   - RULE-SET,onedrive_domain,OneDrive   # OneDrive 域名
   - RULE-SET,speedtest_domain,Speedtest # Speedtest 域名
   - RULE-SET,telegram_domain,Telegram   # Telegram 域名 (注意，Telegram IP 已在前面处理)
@@ -679,6 +687,10 @@ rule-providers:
     path: ./ruleset/geoip_cloudflare.mrs
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/cloudflare.mrs" # 可 no-resolve
   # 国外媒体
+  google_domain:
+    <<: *domain
+    path: ./ruleset/google_domain.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/google.mrs"
   youtube_domain:
     <<: *domain
     path: ./ruleset/youtube_domain.mrs
@@ -703,6 +715,10 @@ rule-providers:
     <<: *ip
     path: ./ruleset/geoip_netflix.mrs
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/netflix.mrs" # 可 no-resolve
+  google_ip:
+    <<: *ip
+    path: ./ruleset/google_ip.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
   # Telegram
   telegram_domain:
     <<: *yaml
