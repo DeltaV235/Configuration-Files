@@ -1,0 +1,24 @@
+#!/bin/sh
+set -eu
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+TARGET="$REPO_ROOT/9-clash/mihomo-custom.yaml"
+SANITIZER="$REPO_ROOT/9-clash/tools/sanitize_provider_urls.py"
+
+# If files are missing, skip silently
+if [ ! -f "$TARGET" ] || [ ! -f "$SANITIZER" ]; then
+  exit 0
+fi
+
+# Run sanitizer without creating backups
+python3 "$SANITIZER" --no-backup >/dev/null 2>&1 || true
+
+# If target changed, stage it so commit contains the sanitized content
+if ! git diff --quiet -- "$TARGET"; then
+  git add "$TARGET"
+fi
+
+exit 0
+
+
