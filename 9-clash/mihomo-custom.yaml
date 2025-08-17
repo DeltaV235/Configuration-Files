@@ -199,18 +199,21 @@ pg: &pg
   proxies:
     - Proxy
     - 香港故转
-    - 美国故转
+    - 台湾故转
     - 新加坡故转
+    - 日本故转
+    - 美国故转
     - 香港自动
-    - 美国自动
+    - 台湾自动
     - 新加坡自动
     - 日本自动
-    - 台湾自动
+    - 美国自动
     - 自动选择
     - 香港节点
-    - 美国节点
-    - 日本节点
     - 台湾节点
+    - 新加坡节点
+    - 日本节点
+    - 美国节点
     - 其他节点
     - 全部节点
     - DIRECT
@@ -230,18 +233,21 @@ proxy-groups:
     type: select
     proxies:
       - 香港故转
-      - 美国故转
+      - 台湾故转
       - 新加坡故转
+      - 日本故转
+      - 美国故转
       - 香港自动
-      - 美国自动
+      - 台湾自动
       - 新加坡自动
       - 日本自动
-      - 台湾自动
+      - 美国自动
       - 自动选择
       - 香港节点
-      - 美国节点
-      - 日本节点
       - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
       - 其他节点
       - 全部节点
     icon: "https://raw.githubusercontent.com/Mithcell-Ma/icon/refs/heads/main/Manual_Test_Log.png"
@@ -313,9 +319,22 @@ proxy-groups:
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/TikTok.png"
 
   - name: YouTube
+    hidden: false
     type: select
     <<: *pg
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/YouTube.png"
+
+  - name: Telegram
+    hidden: false
+    type: select
+    <<: *pg
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Telegram.png"
+
+  - name: GitHub
+    hidden: false
+    type: select
+    <<: *pg
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png"
 
   - name: Netflix
     hidden: true
@@ -347,15 +366,40 @@ proxy-groups:
     proxies: [DIRECT, Proxy]
     icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/trackerslist.png"
 
+  - name: 香港故转
+    type: fallback
+    <<: *primary-proxy-providers
+    filter: "(?i)(香港|hk|🇭🇰|hong\\s?kong)"
+    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/asn.png"
+  - name: 台湾故转
+    type: fallback
+    <<: *primary-proxy-providers
+    filter: "(?i)(台湾|台灣|台北|臺北|TW|taiwan|taipei|taichung|kaohsiung|tpe|khh|tch)"
+    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/asn.png"
+  - name: 新加坡故转
+    type: fallback
+    <<: *primary-proxy-providers
+    filter: "(?i)(🇸🇬|新加坡|狮城|SG|Singapore)"
+    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/asn.png"
+  - name: 日本故转
+    type: fallback
+    <<: *primary-proxy-providers
+    filter: "(?i)(🇯🇵|日本|東京|东京|JP|japan|tokyo|osaka)"
+    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/asn.png"
+  - name: 美国故转
+    type: fallback
+    <<: *primary-proxy-providers
+    filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)"
+    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/asn.png"
 
-  # 🧪 高阶智能均衡测速组（支持 RTT+轮询，Android / macOS 均兼容）
+  # 🧪 根据延迟自动选择
   - name: 香港自动
     <<: *auto-select-group-template
     filter: "(?i)(香港|hk|🇭🇰|hong\\s?kong)"
     icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/urltest.png"
-  - name: 美国自动
+  - name: 台湾自动
     <<: *auto-select-group-template
-    filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)"
+    filter: "(?i)(台湾|台灣|台北|臺北|TW|taiwan|taipei|taichung|kaohsiung|tpe|khh|tch)"
     icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/urltest.png"
   - name: 新加坡自动
     <<: *auto-select-group-template
@@ -365,26 +409,10 @@ proxy-groups:
     <<: *auto-select-group-template
     filter: "(?i)(🇯🇵|日本|東京|东京|JP|japan|tokyo|osaka)"
     icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/urltest.png"
-  - name: 台湾自动
+  - name: 美国自动
     <<: *auto-select-group-template
-    filter: "(?i)(台湾|台灣|台北|臺北|TW|taiwan|taipei|taichung|kaohsiung|tpe|khh|tch)"
-    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/urltest.png"
-
-  - name: 香港故转
-    type: fallback
-    <<: *primary-proxy-providers
-    filter: "(?i)(香港|hk|🇭🇰|hong\\s?kong)"
-    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/asn.png"
-  - name: 美国故转
-    type: fallback
-    <<: *primary-proxy-providers
     filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)"
-    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/asn.png"
-  - name: 新加坡故转
-    type: fallback
-    <<: *primary-proxy-providers
-    filter: "(?i)(🇸🇬|新加坡|狮城|SG|Singapore)"
-    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/asn.png"
+    icon: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/icon/color/urltest.png"
 
   - name: 自动选择
     type: url-test
@@ -409,13 +437,13 @@ proxy-groups:
     include-all: true
     filter: "(?i)(香港|hk|🇭🇰|hong\\s?kong)"
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Hong_Kong.png"
-  - name: 美国节点
+  - name: 台湾节点
     type: select
     <<: *all-proxy-providers
     skip-cert-verify: true
     include-all: true
-    filter: "(?i)(🇺🇸|美国|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)"
-    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png"
+    filter: "(?i)(台湾|台灣|台北|臺北|TW|taiwan|taipei|taichung|kaohsiung|tpe|khh|tch)"
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png"
   - name: 新加坡节点
     type: select
     <<: *all-proxy-providers
@@ -430,13 +458,13 @@ proxy-groups:
     include-all: true
     filter: "(?i)(🇯🇵|日本|東京|东京|JP|japan|tokyo|osaka)"
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Japan.png"
-  - name: 台湾节点
+  - name: 美国节点
     type: select
     <<: *all-proxy-providers
     skip-cert-verify: true
     include-all: true
-    filter: "(?i)(台湾|台灣|台北|臺北|TW|taiwan|taipei|taichung|kaohsiung|tpe|khh|tch)"
-    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Taiwan.png"
+    filter: "(?i)(🇺🇸|美国|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)"
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/United_States.png"
   - name: 其他节点
     type: select
     <<: *all-proxy-providers
@@ -474,10 +502,10 @@ rules:
   - RULE-SET,geoip_cloudfront,DIRECT,no-resolve # Cloudfront IP 直连
 
   # 明确的代理IP规则，确保相关服务流量不泄漏
-  - RULE-SET,telegram_ip,Proxy,no-resolve         # Telegram IP 强制走代理，不加no-resolve会dns泄漏。
-  - RULE-SET,Telegram_No_Resolve,Proxy,no-resolve # Telegram 无需解析的规则
-  - RULE-SET,geoip_cloudflare,AI,no-resolve       # Cloudflare IP 导向 AI
-  - RULE-SET,geoip_netflix,Proxy,no-resolve       # Netflix IP 走代理
+  - RULE-SET,telegram_ip,Telegram,no-resolve         # Telegram IP 强制走代理，不加no-resolve会dns泄漏。
+  - RULE-SET,Telegram_No_Resolve,Telegram,no-resolve # Telegram 无需解析的规则
+  - RULE-SET,geoip_cloudflare,AI,no-resolve          # Cloudflare IP 导向 AI
+  - RULE-SET,geoip_netflix,Proxy,no-resolve          # Netflix IP 走代理
 
   # --- 精确的直连域名规则 (确保国内流量直连) ---
   # 这些域名通常是国内或明确要求直连的服务，应在进行通用代理判断前就确定直连。
@@ -496,7 +524,7 @@ rules:
   # --- 特定服务/流媒体/AI 规则 (强制代理到指定代理组) ---
   # 这些服务通常需要特定的节点或优化，因此应在通用代理规则之前匹配。
   # PROCESS-NAME规则对于 macOS 和安卓（如果客户端支持）尤其有用，可以直接指定某个应用程序的流量走代理。
-  - PROCESS-NAME-REGEX,.*telegram.*,Proxy
+  - PROCESS-NAME-REGEX,.*telegram.*,Telegram
 
   # 学术类
   - DOMAIN-SUFFIX,lingq.com,AI
@@ -520,10 +548,12 @@ rules:
   - RULE-SET,tiktok_domain,TikTok   # TikTok 域名
   - RULE-SET,netflix_domain,Netflix # Netflix 域名
   - RULE-SET,disney_domain,Disney+  # Disney 域名
+
   # 服务类
   - RULE-SET,onedrive_domain,OneDrive   # OneDrive 域名
   - RULE-SET,speedtest_domain,Speedtest # Speedtest 域名
-  - RULE-SET,telegram_domain,Proxy      # Telegram 域名 (注意，Telegram IP 已在前面处理)
+  - RULE-SET,telegram_domain,Telegram   # Telegram 域名 (注意，Telegram IP 已在前面处理)
+  - RULE-SET,github_domain,GitHub       # GitHub 域名
 
   # --- 通用代理规则 (捕获大部分需代理流量) ---
   # 这些是广泛的代理规则，覆盖 GFW 列表或非国内流量。
@@ -657,6 +687,10 @@ rule-providers:
     <<: *domain
     path: ./ruleset/tiktok_domain.mrs
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/tiktok.mrs"
+  github_domain:
+    <<: *domain
+    path: ./ruleset/github_domain.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
   netflix_domain:
     <<: *domain
     path: ./ruleset/netflix_domain.mrs
