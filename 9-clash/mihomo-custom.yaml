@@ -256,29 +256,30 @@ proxy-groups:
   - name: AI
     type: select
     proxies:
-      - AI_稳定节点 # 优先推荐：使用经过筛选的稳定节点，减少IP波动
-      - AI_自动优选 # 备用选项：自动寻找最优美新节点，确保可用性
+      - AI稳定节点 # 优先推荐：使用经过筛选的稳定节点，减少IP波动
+      - AI自动优选 # 备用选项：自动寻找最优美新节点，确保可用性
     icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/ai.png"
 
-  # --- AI_稳定节点：针对 AI 服务优化，优先保持IP稳定 ---
-  - name: AI_稳定节点
+  # --- AI稳定节点：针对 AI 服务优化，优先保持IP稳定 ---
+  - name: AI稳定节点
     type: fallback # 策略类型：故障转移，优先使用列表中的第一个可用节点
     <<: *primary-proxy-providers 
     url: https://cp.cloudflare.com/generate_204 
     interval: 7200 # 测速间隔：2 小时 (7200 秒)，降低节点切换频率，有助于保持IP稳定性
     strategy: consistent-hashing # 一致性哈希,减少IP波动。
-    max-failed-times: 2 # 失效阈值：节点测试失败 2 次即认为失效，切换到下一个节点
+    max-failed-times: 5 # 失效阈值：节点测试失败 5 次即认为失效，切换到下一个节点
     tolerance: 150 # RTT 容忍度：减少因网络微小波动导致的频繁切换
     lazy: true 
     # 节点筛选器，使用 filter 精确筛选出您想要的 AI 节点，包括其前缀
     # 格式：使用您客户端中显示的完整节点名称，包括 "p2 »" 前缀
     # 注意：filter 中的名称要与 additional-prefix: "p2 »" 生效后的显示名称完全匹配
     # **务必替换为从客户端复制的精确名称，多个用 | 分隔**
-    # filter: "s_500G »🇺🇸 美国-03|s_500G »🇸🇬 狮城-03|s_500G »🇺🇸 美国-01"
+    filter: "^(?!.*直连)p2-.*🇺🇸.*美国.*$"
+    exclude-filter: "(?i)(直连|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local|套餐|建议)"
     icon: "https://testingcf.jsdelivr.net/gh/aihdde/Rules@master/icon/ai.png"
 
-  # --- AI_自动优选：AI 稳定节点失效时的备用方案，追求最佳速度 ---
-  - name: AI_自动优选
+  # --- AI自动优选：AI 稳定节点失效时的备用方案，追求最佳速度 ---
+  - name: AI自动优选
     type: url-test 
     <<: *primary-proxy-providers 
     url: https://cp.cloudflare.com/generate_204 # 节点健康检查URL (或更针对 AI 服务的测速URL)
@@ -286,7 +287,7 @@ proxy-groups:
     tolerance: 50 # RTT 容忍度：适度允许延迟波动，避免过于频繁的切换
     lazy: false 
     # 节点筛选器：仅筛选出美国和新加坡地区的节点 (大小写不敏感)
-    #    filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图|🇸🇬|新加坡|狮城|SG|Singapore)" # 仅筛选美新节点
+    filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图|🇸🇬|新加坡|狮城|SG|Singapore)" # 仅筛选美新节点
     # preferred 参数：指定希望优先选择的节点列表
     # 如果您发现某些节点，虽然测速不总是第一，但实际体验更佳，可以将其名称加入
     # preferred:
@@ -308,7 +309,11 @@ proxy-groups:
     # 注意：filter 中的名称要与 additional-prefix: "p2 »" 生效后的显示名称完全匹配
     # **务必替换为从客户端复制的精确名称，多个用 | 分隔**
     # filter: "s_500G »🇺🇸 美国-03|s_500G »🇸🇬 狮城-03|s_500G »🇺🇸 美国-01"
-    filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)"
+    filter: "^(?!.*直连)p2-.*🇺🇸.*美国.*$"
+    exclude-filter: "(?i)(直连|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local|套餐|建议)"
+    preferred:
+      - "p2-🇺🇸【北美洲】美国07丨IPLC【10x】"
+      - "p2-🇺🇸【北美洲】美国08丨IPLC【10x】"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Claud.png"
 
   # 📺 媒体平台
