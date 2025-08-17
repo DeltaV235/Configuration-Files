@@ -274,7 +274,7 @@ proxy-groups:
     # 格式：使用您客户端中显示的完整节点名称，包括 "p2 »" 前缀
     # 注意：filter 中的名称要与 additional-prefix: "p2 »" 生效后的显示名称完全匹配
     # **务必替换为从客户端复制的精确名称，多个用 | 分隔**
-    filter: "^(?!.*直连)p2-.*🇺🇸.*美国.*$"
+    filter: "^p2-.*🇺🇸.*美国.*$"
     exclude-filter: "(?i)(直连|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local|套餐|建议)"
     icon: "https://testingcf.jsdelivr.net/gh/aihdde/Rules@master/icon/ai.png"
 
@@ -293,6 +293,11 @@ proxy-groups:
     # preferred:
     #   - '机场自定义前缀 »指定节点名称' # 假设这是您认为在自动优选中也较稳定的节点
     #   - 's_500 »🇺🇸 美国-01'
+    preferred:
+      - "p2-🇺🇸【北美洲】美国07丨IPLC【10x】"
+      - "p2-🇺🇸【北美洲】美国08丨IPLC【10x】"
+      - "p2-🇺🇸【北美洲】美国05丨超速ᴠ⁶【3x】"
+      - "p2-🇺🇸【北美洲】美国06丨超速ᴠ⁶【3x】"
     icon: "https://raw.githubusercontent.com/Mithcell-Ma/icon/refs/heads/main/ai_backup.png"
 
   - name: Anthropic
@@ -309,11 +314,8 @@ proxy-groups:
     # 注意：filter 中的名称要与 additional-prefix: "p2 »" 生效后的显示名称完全匹配
     # **务必替换为从客户端复制的精确名称，多个用 | 分隔**
     # filter: "s_500G »🇺🇸 美国-03|s_500G »🇸🇬 狮城-03|s_500G »🇺🇸 美国-01"
-    filter: "^(?!.*直连)p2-.*🇺🇸.*美国.*$"
+    filter: "^p2-.*🇺🇸.*美国.*IPLC.*$"
     exclude-filter: "(?i)(直连|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local|套餐|建议)"
-    preferred:
-      - "p2-🇺🇸【北美洲】美国07丨IPLC【10x】"
-      - "p2-🇺🇸【北美洲】美国08丨IPLC【10x】"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Claud.png"
 
   # 📺 媒体平台
@@ -611,6 +613,7 @@ rule-anchor:
 
 # **动态加载规则配置，提供实时更新的规则集合**
 rule-providers:
+
   # 广告过滤
   AWAvenue_Ads_Rule:
     <<: *yaml
@@ -620,11 +623,13 @@ rule-providers:
     <<: *yaml
     path: ./ruleset/blackmatrix7_ad.yaml
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Advertising/Advertising.yaml"
+
   # 色情类拦截
   porn:
     <<: *domain
     path: ./ruleset/category-porn.mrs
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/category-porn.mrs"
+
   # fake-ip 过滤（根据平台兼容性选用一个）
   fake_ip_filter_DustinWin:
     <<: *domain
@@ -652,6 +657,7 @@ rule-providers:
     <<: *ip
     path: ./ruleset/cn_ip.mrs
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/cn.mrs"
+
   # BT 下载隐私类
   trackerslist:
     <<: *domain
@@ -671,6 +677,7 @@ rule-providers:
     <<: *domain
     path: ./ruleset/geolocation-!cn.mrs
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/geolocation-!cn.mrs"
+
   # 平台类规则
   # 学术类
   ai:
@@ -681,16 +688,17 @@ rule-providers:
     <<: *domain
     path: ./ruleset/anthropic.mrs
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/anthropic.mrs
+
   # cloudflare
   cloudflare:
     <<: *domain
     path: ./ruleset/cloudflare.mrs
     url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/cloudflare.mrs
-
   geoip_cloudflare:
     <<: *ip
     path: ./ruleset/geoip_cloudflare.mrs
     url: "https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geoip/cloudflare.mrs" # 可 no-resolve
+
   # 国外媒体
   google_domain:
     <<: *domain
@@ -724,6 +732,7 @@ rule-providers:
     <<: *ip
     path: ./ruleset/google_ip.mrs
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geoip/google.mrs"
+
   # Telegram
   telegram_domain:
     <<: *yaml
@@ -737,11 +746,13 @@ rule-providers:
     <<: *classical_yaml
     path: ./ruleset/Telegram_No_Resolve.yaml
     url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/refs/heads/master/rule/Clash/Telegram/Telegram_No_Resolve.yaml"
+
   # Apple
   apple_cn_domain:
     <<: *domain
     path: ./ruleset/apple_cn_domain.mrs
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"
+
   # 微软
   onedrive_domain:
     <<: *domain
@@ -751,6 +762,7 @@ rule-providers:
     <<: *domain
     path: ./ruleset/speedtest_domain.mrs
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/ookla-speedtest.mrs"
+
   # 可选添加的 geoip 分类（如需细分 IP 层处理）
   geoip_cloudfront:
     <<: *ip
