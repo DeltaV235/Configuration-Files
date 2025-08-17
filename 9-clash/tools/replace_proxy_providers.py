@@ -23,8 +23,10 @@ from pathlib import Path
 def find_top_level_block_range(text: str, key: str) -> tuple[int, int]:
     """Return (start_index, end_index) for the top-level YAML block named `key`.
 
-    The start matches the line beginning with `key:` at column 0.
-    The end is right before the next top-level key (column-0 `something:`) or EOF.
+    - Start: the line beginning with `key:` at column 0 (inclusive)
+    - End: up to just before the next top-level key. Additionally, preserve any
+      contiguous top-level header comments (lines starting with `#` at column 0)
+      and blank lines immediately preceding the next top-level key.
     """
     start_pattern = re.compile(rf"(?m)^{re.escape(key)}:\s*(?:#.*)?$")
     start_match = start_pattern.search(text)
@@ -36,7 +38,39 @@ def find_top_level_block_range(text: str, key: str) -> tuple[int, int]:
     next_match = next_top_pattern.search(text, pos=start_match.end())
 
     start_index = start_match.start()
-    end_index = next_match.start() if next_match else len(text)
+    if not next_match:
+        return start_index, len(text)
+
+    # Initially, end before the next key
+    end_index = next_match.start()
+
+    # Preserve contiguous top-level comments (starting with '#' at column 0)
+    # and blank lines just before the next key. Do NOT preserve indented comments.
+    # To avoid scanning the whole file backwards, limit to a small number of lines.
+    MAX_BACKSCAN_LINES = 50
+    segment_start = start_match.end()
+    segment_end = end_index
+    segment = text[segment_start:segment_end]
+
+    # Work with lines of the segment (this bounds complexity to the segment only)
+    lines = segment.splitlines(keepends=True)
+    preserve_char_count = 0
+    scanned_lines = 0
+    # Walk backwards from the end of the segment
+    for line in reversed(lines):
+        if scanned_lines >= MAX_BACKSCAN_LINES:
+            break
+        # Normalize CRLF
+        raw = line[:-1] if line.endswith("\n") else line
+        if raw.endswith("\r"):
+            raw = raw[:-1]
+        if raw.strip() == "" or raw.startswith("#"):
+            preserve_char_count += len(line)
+            scanned_lines += 1
+            continue
+        break
+
+    end_index = segment_end - preserve_char_count
     return start_index, end_index
 
 
