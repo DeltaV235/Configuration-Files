@@ -540,6 +540,10 @@ rules:
   # PROCESS-NAME规则对于 macOS 和安卓（如果客户端支持）尤其有用，可以直接指定某个应用程序的流量走代理。
   - PROCESS-NAME-REGEX,.*telegram.*,Telegram
 
+  # Claude Code & Codex 中转站
+  - DOMAIN-SUFFIX,88code.org,DIRECT
+  - DOMAIN-SUFFIX,packycode.com,DIRECT
+
   # 学术类
   - DOMAIN-SUFFIX,lingq.com,AI
   - DOMAIN-SUFFIX,youglish.com,AI
