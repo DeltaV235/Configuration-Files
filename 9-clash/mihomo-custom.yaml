@@ -63,7 +63,7 @@ proxy-providers:
     override:
       additional-prefix: "b1-"
 
-  # 4.backup2: 
+  # 4.backup2:
   #   url: ""
   #   path: ./proxy_provider/b2.yaml
   #   <<: *backup-provider-template
@@ -114,14 +114,14 @@ socks-port: 7891 # SOCKS5 代理端口
 redir-port: 7892 # 透明代理端口，用于 Linux 和 MacOS
 mixed-port: 7893 # HTTP(S) 和 SOCKS 代理混合端口
 tproxy-port: 7894
-allow-lan: true  # 允许局域网连接
+allow-lan: true # 允许局域网连接
 mode: rule
 bind-address: "*" # 绑定 IP 地址，仅作用于 allow-lan 为 true，'*'表示所有地址
 ipv6: false
-unified-delay: true  # 更换延迟计算方式，去除握手等额外延迟
+unified-delay: true # 更换延迟计算方式，去除握手等额外延迟
 tcp-concurrent: true # 启用 TCP 并发连接。这允许 Clash 同时建立多个 TCP 连接，可以提高网络性能和连接速度
-log-level: warning   # 查东西时改成info
-find-process-mode: "off"       # 设置进程查找模式为严格模式，Clash 会更精确地识别和匹配网络流量来源的进程
+log-level: warning # 查东西时改成info
+find-process-mode: "off" # 设置进程查找模式为严格模式，Clash 会更精确地识别和匹配网络流量来源的进程
 global-client-fingerprint: chrome # 设置全局客户端指纹为 Chrome，使 Clash 在建立连接时模拟 Chrome 浏览器的 TLS 指纹，增强隐私性和绕过某些网站的指纹检测
 keep-alive-idle: 600
 keep-alive-interval: 15
@@ -188,7 +188,6 @@ geox-url:
   geosite: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat"
   mmdb: "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb"
 
-
 # **=============================== 代理组设置 ===============================**
 # 代理组用于管理不同代理的分类和调度策略
 # 注意锚点必须放在引用的上方，可以集中把锚点全部放yaml的顶部。
@@ -218,14 +217,13 @@ pg: &pg
     - 全部节点
     - DIRECT
 
-auto-select-group-template: &auto-select-group-template 
-  type: url-test 
+auto-select-group-template: &auto-select-group-template
+  type: url-test
   <<: *primary-proxy-providers
   lazy: false
   interval: 300
   tolerance: 30
-  url: 'https://www.gstatic.com/generate_204'
-
+  url: "https://www.gstatic.com/generate_204"
 
 # **代理组**
 proxy-groups:
@@ -263,13 +261,13 @@ proxy-groups:
   # --- AI稳定节点：针对 AI 服务优化，优先保持IP稳定 ---
   - name: AI稳定节点
     type: fallback # 策略类型：故障转移，优先使用列表中的第一个可用节点
-    <<: *primary-proxy-providers 
-    url: https://cp.cloudflare.com/generate_204 
+    <<: *primary-proxy-providers
+    url: https://cp.cloudflare.com/generate_204
     interval: 7200 # 测速间隔：2 小时 (7200 秒)，降低节点切换频率，有助于保持IP稳定性
     strategy: consistent-hashing # 一致性哈希,减少IP波动。
     max-failed-times: 5 # 失效阈值：节点测试失败 5 次即认为失效，切换到下一个节点
     tolerance: 150 # RTT 容忍度：减少因网络微小波动导致的频繁切换
-    lazy: true 
+    lazy: true
     # 节点筛选器，使用 filter 精确筛选出您想要的 AI 节点，包括其前缀
     # 格式：使用您客户端中显示的完整节点名称，包括 "p2 »" 前缀
     # 注意：filter 中的名称要与 additional-prefix: "p2 »" 生效后的显示名称完全匹配
@@ -280,12 +278,12 @@ proxy-groups:
 
   # --- AI自动优选：AI 稳定节点失效时的备用方案，追求最佳速度 ---
   - name: AI自动优选
-    type: url-test 
-    <<: *primary-proxy-providers 
+    type: url-test
+    <<: *primary-proxy-providers
     url: https://cp.cloudflare.com/generate_204 # 节点健康检查URL (或更针对 AI 服务的测速URL)
     interval: 3600 # 测速间隔延长至 1 小时 (3600 秒)，平衡速度与资源消耗,降低切换频率
     tolerance: 50 # RTT 容忍度：适度允许延迟波动，避免过于频繁的切换
-    lazy: false 
+    lazy: false
     # 节点筛选器：仅筛选出美国和新加坡地区的节点 (大小写不敏感)
     filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图|🇸🇬|新加坡|狮城|SG|Singapore)" # 仅筛选美新节点
     # preferred 参数：指定希望优先选择的节点列表
@@ -302,13 +300,13 @@ proxy-groups:
 
   - name: Anthropic
     type: fallback # 策略类型：故障转移，优先使用列表中的第一个可用节点
-    <<: *primary-proxy-providers 
-    url: https://cp.cloudflare.com/generate_204 
+    <<: *primary-proxy-providers
+    url: https://cp.cloudflare.com/generate_204
     interval: 7200 # 测速间隔：2 小时 (7200 秒)，降低节点切换频率，有助于保持IP稳定性
     strategy: consistent-hashing # 一致性哈希,减少IP波动。
     max-failed-times: 5 # 失效阈值：节点测试失败 5 次即认为失效，切换到下一个节点
     tolerance: 150 # RTT 容忍度：减少因网络微小波动导致的频繁切换
-    lazy: true 
+    lazy: true
     # 节点筛选器，使用 filter 精确筛选出您想要的 AI 节点，包括其前缀
     # 格式：使用您客户端中显示的完整节点名称，包括 "p2 »" 前缀
     # 注意：filter 中的名称要与 additional-prefix: "p2 »" 生效后的显示名称完全匹配
@@ -336,6 +334,12 @@ proxy-groups:
     type: select
     <<: *pg
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Google.png"
+
+  - name: Apple
+    hidden: false
+    type: select
+    <<: *pg
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Apple.png"
 
   - name: Telegram
     hidden: false
@@ -505,35 +509,35 @@ proxy-groups:
 rules:
   # --- 拒绝/阻止类规则 (最高优先级，直接拦截) ---
   # 这些规则不涉及 DNS 解析，直接拒绝，应放在最前面，以阻止不必要的流量。
-  - RULE-SET,AWAvenue_Ads_Rule,REJECT     # 秋风广告过滤
+  - RULE-SET,AWAvenue_Ads_Rule,REJECT # 秋风广告过滤
   # - RULE-SET,blackmatrix7_ad,REJECT     # 广告过滤
   # - RULE-SET,porn,REJECT                # 色情类拦截
 
   # --- 精确的 IP / ASN 规则 (强制 no-resolve，防DNS泄漏) ---
   # 这些规则直接根据 IP 地址匹配，不进行 DNS 解析。确保它们在依赖域名解析的规则之前。
-  - RULE-SET,cn_ip,DIRECT,no-resolve            # 国内 IP 优先直连
+  - RULE-SET,cn_ip,DIRECT,no-resolve # 国内 IP 优先直连
   - RULE-SET,geoip_cloudfront,DIRECT,no-resolve # Cloudfront IP 直连
 
   # 明确的代理IP规则，确保相关服务流量不泄漏
-  - RULE-SET,google_ip,Google,no-resolve          # Google IP 走 Google
-  - RULE-SET,telegram_ip,Telegram,no-resolve         # Telegram IP 强制走代理，不加no-resolve会dns泄漏。
+  - RULE-SET,google_ip,Google,no-resolve # Google IP 走 Google
+  - RULE-SET,telegram_ip,Telegram,no-resolve # Telegram IP 强制走代理，不加no-resolve会dns泄漏。
   - RULE-SET,Telegram_No_Resolve,Telegram,no-resolve # Telegram 无需解析的规则
-  - RULE-SET,geoip_cloudflare,AI,no-resolve          # Cloudflare IP 导向 AI
-  - RULE-SET,geoip_netflix,Proxy,no-resolve          # Netflix IP 走代理
+  - RULE-SET,geoip_cloudflare,AI,no-resolve # Cloudflare IP 导向 AI
+  - RULE-SET,geoip_netflix,Proxy,no-resolve # Netflix IP 走代理
 
   # --- 精确的直连域名规则 (确保国内流量直连) ---
   # 这些域名通常是国内或明确要求直连的服务，应在进行通用代理判断前就确定直连。
   - DOMAIN-SUFFIX,julebu.co,DIRECT
   - RULE-SET,blackmatrix7_direct,DIRECT
-  - RULE-SET,private_domain,DIRECT  # 自定义私有域名（如内网域名、不希望代理的特定域名）
-  - RULE-SET,cn_domain,DIRECT       # 中国大陆域名（如百度、QQ等，通常包含在国内域名规则集）
+  - RULE-SET,private_domain,DIRECT # 自定义私有域名（如内网域名、不希望代理的特定域名）
+  - RULE-SET,cn_domain,DIRECT # 中国大陆域名（如百度、QQ等，通常包含在国内域名规则集）
 
   # 苹果服务直连 (macOS) - 放在国内域名之后，因为苹果服务可能涉及全球CDN但中国区应直连。
   - DOMAIN-SUFFIX,apple.com,DIRECT
   - DOMAIN-SUFFIX,icloud.com,DIRECT
   - DOMAIN-SUFFIX,cdn-apple.com,DIRECT # 针对苹果CDN加速
-  - RULE-SET,apple_cn_domain,DIRECT    # 针对 Apple 国内域名，确保直连
-  - DOMAIN-SUFFIX,ls.apple.com,DIRECT  # 针对 Apple 定位，直连规则
+  - RULE-SET,apple_cn_domain,DIRECT # 针对 Apple 国内域名，确保直连
+  - DOMAIN-SUFFIX,ls.apple.com,DIRECT # 针对 Apple 定位，直连规则
 
   # --- 特定服务/流媒体/AI 规则 (强制代理到指定代理组) ---
   # 这些服务通常需要特定的节点或优化，因此应在通用代理规则之前匹配。
@@ -563,16 +567,17 @@ rules:
 
   # 媒体服务
   - RULE-SET,youtube_domain,YouTube # YouTube 域名
-  - RULE-SET,tiktok_domain,TikTok   # TikTok 域名
+  - RULE-SET,tiktok_domain,TikTok # TikTok 域名
   - RULE-SET,netflix_domain,Netflix # Netflix 域名
-  - RULE-SET,disney_domain,Disney+  # Disney 域名
+  - RULE-SET,disney_domain,Disney+ # Disney 域名
 
   # 服务类
-  - RULE-SET,google_domain,Google    # Google 域名
-  - RULE-SET,onedrive_domain,OneDrive   # OneDrive 域名
+  - RULE-SET,google_domain,Google # Google 域名
+  - RULE-SET,onedrive_domain,OneDrive # OneDrive 域名
   - RULE-SET,speedtest_domain,Speedtest # Speedtest 域名
-  - RULE-SET,telegram_domain,Telegram   # Telegram 域名 (注意，Telegram IP 已在前面处理)
-  - RULE-SET,github_domain,GitHub       # GitHub 域名
+  - RULE-SET,telegram_domain,Telegram # Telegram 域名 (注意，Telegram IP 已在前面处理)
+  - RULE-SET,github_domain,GitHub # GitHub 域名
+  - RULE-SET,apple_cn_domain,Apple # Apple 域名
 
   # --- 通用代理规则 (捕获大部分需代理流量) ---
   # 这些是广泛的代理规则，覆盖 GFW 列表或非国内流量。
@@ -617,7 +622,6 @@ rule-anchor:
 
 # **动态加载规则配置，提供实时更新的规则集合**
 rule-providers:
-
   # 广告过滤
   AWAvenue_Ads_Rule:
     <<: *yaml
