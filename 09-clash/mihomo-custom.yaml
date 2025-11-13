@@ -90,6 +90,9 @@ dns:
     - "+.msftncsi.com"
     - "time.*.com"
     - "+.market.xiaomi.com"
+    # === 🎯 Cloudflare Tunnel 专用配置 ===
+    - "+.argotunnel.com" # CF Tunnel 主域名
+    - "+.cftunnel.com" # CF Tunnel 备用域名
   default-nameserver:
     - 223.5.5.5
   proxy-server-nameserver:
@@ -353,6 +356,12 @@ proxy-groups:
     <<: *pg
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png"
 
+  - name: Cloudflare-Tunnel
+    hidden: false
+    type: select
+    <<: *pg
+    icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/cloudflare.png"
+
   - name: Netflix
     hidden: true
     type: select
@@ -517,6 +526,10 @@ rules:
   # 这些规则直接根据 IP 地址匹配，不进行 DNS 解析。确保它们在依赖域名解析的规则之前。
   - RULE-SET,cn_ip,DIRECT,no-resolve # 国内 IP 优先直连
   - RULE-SET,geoip_cloudfront,DIRECT,no-resolve # Cloudfront IP 直连
+
+  # === 🎯 Cloudflare Tunnel 直连规则 ===
+  - DOMAIN-SUFFIX,argotunnel.com,Cloudflare-Tunnel
+  - DOMAIN-SUFFIX,cftunnel.com,Cloudflare-Tunnel
 
   # 明确的代理IP规则，确保相关服务流量不泄漏
   - RULE-SET,google_ip,Google,no-resolve # Google IP 走 Google
