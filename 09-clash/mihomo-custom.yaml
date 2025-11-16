@@ -28,47 +28,43 @@ backup-provider-template: &backup-provider-template
     url: https://www.gstatic.com/generate_204
     interval: 43200
 
-all-proxy-providers: &all-proxy-providers # **所有订阅组引用**
-  use:
-    - 1.primary1
-    - 2.primary2
-    - 3.backup1
-    # - 4.backup2
+# **所有订阅组引用**
+all-proxy-providers: &all-proxy-providers
+  use: []
 
-primary-proxy-providers: &primary-proxy-providers # **主用订阅组引用**
-  use:
-    - 1.primary1
-    - 2.primary2
+# **主用订阅组引用**
+primary-proxy-providers: &primary-proxy-providers
+  use: []
 
 # **各种代理提供者（机场）的订阅配置**
 proxy-providers:
   1.primary1:
     url: ""
-    path: ./proxy_provider/p1.yaml
+    path: ""
     <<: *primary-provider-template
     override:
-      additional-prefix: "p1-"
+      additional-prefix: ""
 
   2.primary2:
     url: ""
-    path: ./proxy_provider/p2.yaml
+    path: ""
     <<: *primary-provider-template
     override:
-      additional-prefix: "p2-"
+      additional-prefix: ""
 
   3.backup1:
     url: ""
-    path: ./proxy_provider/b1.yaml
+    path: ""
     <<: *backup-provider-template
     override:
-      additional-prefix: "b1-"
+      additional-prefix: ""
 
-  # 4.backup2:
-  #   url: ""
-  #   path: ./proxy_provider/b2.yaml
-  #   <<: *backup-provider-template
-  #   override:
-  #     additional-prefix: "b2-"
+  4.backup2:
+    url: ""
+    path: ""
+    <<: *backup-provider-template
+    override:
+      additional-prefix: ""
 
 # **=============================== 节点信息 ===============================**
 proxies: []

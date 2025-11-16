@@ -1,15 +1,17 @@
 #!/usr/bin/env python3
 """
-Replace the top-level 'proxy-providers:' block (including its header line)
-in 'mihomo-custom.yaml' with the entire contents of 'proxy-providers-info.yaml'.
+Replace the top-level 'all-proxy-providers:', 'primary-proxy-providers:', and
+'proxy-providers:' blocks in 'mihomo-custom.yaml' with the corresponding blocks
+from 'proxy-providers-secrets.yaml'.
 
 Default paths are resolved relative to this script directory:
   - target:   ../mihomo-custom.yaml
-  - source:   ../proxy-providers-info.yaml
+  - source:   ../proxy-providers-secrets.yaml
 
 Usage examples:
   python3 tools/replace_proxy_providers.py
-  python3 tools/replace_proxy_providers.py -t /abs/path/mihomo-custom.yaml -s /abs/path/proxy-providers-info.yaml
+  python3 tools/replace_proxy_providers.py --backup
+  python3 tools/replace_proxy_providers.py -t /path/mihomo-custom.yaml -s /path/proxy-providers-secrets.yaml
 """
 
 from __future__ import annotations
@@ -23,87 +25,79 @@ from pathlib import Path
 def find_top_level_block_range(text: str, key: str) -> tuple[int, int]:
     """Return (start_index, end_index) for the top-level YAML block named `key`.
 
-    - Start: the line beginning with `key:` at column 0 (inclusive)
-    - End: up to just before the next top-level key. Additionally, preserve any
-      contiguous top-level header comments (lines starting with `#` at column 0)
-      and blank lines immediately preceding the next top-level key.
+    Start matches the line beginning with `key:` at column 0 (inclusive), or any
+    comment line immediately preceding it.
+    End is right before the next top-level key or its preceding comment.
+    Supports YAML anchors (e.g., `key: &anchor-name # comment`).
     """
-    start_pattern = re.compile(rf"(?m)^{re.escape(key)}:\s*(?:#.*)?$")
+    # Find the key line
+    start_pattern = re.compile(rf"(?m)^{re.escape(key)}:\s*(?:&\S+\s*)?(?:#.*)?$")
     start_match = start_pattern.search(text)
     if not start_match:
-        raise ValueError(f"Top-level key '{key}:' not found in target file")
+        raise ValueError(f"Top-level key '{key}:' not found in file")
 
-    # Next top-level key (column 0, not a comment), excluding the same key at start.
+    # Include any comment lines immediately before the key
+    start_index = start_match.start()
+    before_text = text[:start_index]
+    lines_before = before_text.splitlines(keepends=True)
+
+    # Walk backwards to find preceding comments
+    for line in reversed(lines_before):
+        stripped = line.rstrip("\n\r")
+        if stripped.strip() == "":
+            continue  # Skip blank lines
+        elif stripped.lstrip().startswith("#"):
+            start_index -= len(line)
+        else:
+            break  # Stop at first non-comment line
+
+    # Next top-level key (column 0, not a comment)
     next_top_pattern = re.compile(r"(?m)^(?!#)(?!\s)([A-Za-z0-9_\-]+):(\s|$)")
     next_match = next_top_pattern.search(text, pos=start_match.end())
 
-    start_index = start_match.start()
     if not next_match:
         return start_index, len(text)
 
-    # Initially, end before the next key
+    # Find any comment immediately before the next key
     end_index = next_match.start()
+    segment_before_next = text[start_match.end():end_index]
+    lines = segment_before_next.splitlines(keepends=True)
 
-    # Preserve contiguous top-level comments (starting with '#' at column 0)
-    # and blank lines just before the next key. Do NOT preserve indented comments.
-    # To avoid scanning the whole file backwards, limit to a small number of lines.
-    MAX_BACKSCAN_LINES = 50
-    segment_start = start_match.end()
-    segment_end = end_index
-    segment = text[segment_start:segment_end]
-
-    # Work with lines of the segment (this bounds complexity to the segment only)
-    lines = segment.splitlines(keepends=True)
-    preserve_char_count = 0
-    scanned_lines = 0
-    # Walk backwards from the end of the segment
+    # Walk backwards from next key to find its preceding comment
     for line in reversed(lines):
-        if scanned_lines >= MAX_BACKSCAN_LINES:
-            break
-        # Normalize CRLF
-        raw = line[:-1] if line.endswith("\n") else line
-        if raw.endswith("\r"):
-            raw = raw[:-1]
-        if raw.strip() == "" or raw.startswith("#"):
-            preserve_char_count += len(line)
-            scanned_lines += 1
-            continue
-        break
+        stripped = line.rstrip("\n\r")
+        if stripped.strip() == "":
+            end_index -= len(line)
+        elif stripped.lstrip().startswith("#"):
+            end_index -= len(line)
+            break  # Found the comment, stop here
+        else:
+            break  # Non-comment content, stop
 
-    end_index = segment_end - preserve_char_count
     return start_index, end_index
 
 
-def ensure_replacement_has_header(replacement_text: str, header_key: str) -> str:
-    """Ensure the replacement text begins with the `header_key:` at column 0.
-    If not, wrap the content under that header and indent by two spaces.
-    """
-    has_header = re.search(rf"(?m)^{re.escape(header_key)}:\s*", replacement_text) is not None
-    if has_header:
-        return replacement_text
-
-    # Indent each non-empty line by two spaces
-    indented_lines = []
-    for line in replacement_text.splitlines():
-        if line.strip() == "":
-            indented_lines.append("")
-        else:
-            indented_lines.append("  " + line)
-    wrapped = header_key + ":\n" + "\n".join(indented_lines)
-    return wrapped
-
-
 def replace_block_in_text(target_text: str, header_key: str, replacement_text: str) -> str:
+    """Replace a top-level block in target text with replacement text."""
     start_index, end_index = find_top_level_block_range(target_text, header_key)
 
-    # Normalize newlines: ensure the replacement ends with a single newline
+    # Ensure replacement ends with a single newline
     if not replacement_text.endswith("\n"):
         replacement_text = replacement_text + "\n"
 
-    # Preserve everything before and after the block
-    before = target_text[:start_index]
-    after = target_text[end_index:]
-    return before + replacement_text + after
+    return target_text[:start_index] + replacement_text + target_text[end_index:]
+
+
+def extract_block_from_source(source_text: str, key: str) -> str:
+    """Extract a specific top-level block from source text.
+
+    Returns the block text (find_top_level_block_range already includes comments).
+    """
+    try:
+        start_index, end_index = find_top_level_block_range(source_text, key)
+        return source_text[start_index:end_index]
+    except ValueError:
+        return ""
 
 
 def main(argv: list[str]) -> int:
@@ -111,12 +105,14 @@ def main(argv: list[str]) -> int:
     root_dir = script_path.parent.parent
 
     default_target = root_dir / "mihomo-custom.yaml"
-    default_source = root_dir / "proxy-providers-info.yaml"
+    default_source = root_dir / "proxy-providers-secrets.yaml"
 
-    parser = argparse.ArgumentParser(description="Replace 'proxy-providers:' block in mihomo-custom.yaml")
+    parser = argparse.ArgumentParser(
+        description="Replace 'all-proxy-providers:', 'primary-proxy-providers:', and 'proxy-providers:' blocks"
+    )
     parser.add_argument("-t", "--target", type=Path, default=default_target, help="Path to mihomo-custom.yaml")
-    parser.add_argument("-s", "--source", type=Path, default=default_source, help="Path to proxy-providers-info.yaml")
-    parser.add_argument("--no-backup", action="store_true", help="Do not create .bak backup of target file")
+    parser.add_argument("-s", "--source", type=Path, default=default_source, help="Path to proxy-providers-secrets.yaml")
+    parser.add_argument("--backup", action="store_true", help="Create .bak backup of target file")
     args = parser.parse_args(argv)
 
     target_path: Path = args.target
@@ -136,21 +132,35 @@ def main(argv: list[str]) -> int:
         return 1
 
     try:
-        replacement_raw = source_path.read_text(encoding="utf-8")
+        source_text = source_path.read_text(encoding="utf-8")
     except Exception as exc:  # noqa: BLE001
         print(f"[ERROR] Failed to read source file: {exc}", file=sys.stderr)
         return 1
 
-    replacement_text = ensure_replacement_has_header(replacement_raw, "proxy-providers")
+    # Blocks to replace (in reverse order to avoid index shifting)
+    blocks_to_replace = ["proxy-providers", "primary-proxy-providers", "all-proxy-providers"]
+    replaced_blocks = []
 
-    try:
-        new_text = replace_block_in_text(target_text, "proxy-providers", replacement_text)
-    except Exception as exc:  # noqa: BLE001
-        print(f"[ERROR] Replacement failed: {exc}", file=sys.stderr)
+    new_text = target_text
+    for block_key in blocks_to_replace:
+        replacement_block = extract_block_from_source(source_text, block_key)
+        if not replacement_block:
+            print(f"[WARN] Block '{block_key}:' not found in source file, skipping", file=sys.stderr)
+            continue
+
+        try:
+            new_text = replace_block_in_text(new_text, block_key, replacement_block)
+            replaced_blocks.append(block_key)
+        except Exception as exc:  # noqa: BLE001
+            print(f"[ERROR] Failed to replace block '{block_key}': {exc}", file=sys.stderr)
+            return 1
+
+    if not replaced_blocks:
+        print("[ERROR] No blocks were replaced", file=sys.stderr)
         return 1
 
-    # Create backup unless disabled
-    if not args.no_backup:
+    # Create backup if requested
+    if args.backup:
         backup_path = target_path.with_suffix(target_path.suffix + ".bak")
         try:
             backup_path.write_text(target_text, encoding="utf-8")
@@ -164,11 +174,10 @@ def main(argv: list[str]) -> int:
         print(f"[ERROR] Failed to write target file: {exc}", file=sys.stderr)
         return 1
 
-    print(f"[OK] Replaced 'proxy-providers:' block in {target_path} using {source_path}")
+    blocks_str = ", ".join(f"'{b}:'" for b in reversed(replaced_blocks))
+    print(f"[OK] Replaced {blocks_str} blocks in {target_path} using {source_path}")
     return 0
 
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv[1:]))
-
-

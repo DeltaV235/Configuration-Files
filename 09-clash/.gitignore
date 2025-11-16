@@ -1,6 +1,6 @@
 # Providers & secrets
 proxy_provider/
-proxy-providers-info.yaml
+proxy-providers-secrets.yaml
 
 # OS & editor
 .DS_Store
@@ -10,3 +10,9 @@ Thumbs.db
 
 # log
 *.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so

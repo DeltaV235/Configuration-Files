@@ -11,8 +11,8 @@ if [ ! -f "$TARGET" ] || [ ! -f "$SANITIZER" ]; then
   exit 0
 fi
 
-# Run sanitizer without creating backups
-python3 "$SANITIZER" --no-backup >/dev/null 2>&1 || true
+# Run sanitizer (default: no backup)
+python3 "$SANITIZER" >/dev/null 2>&1 || true
 
 # If target changed, stage it so commit contains the sanitized content
 if ! git diff --quiet -- "$TARGET"; then

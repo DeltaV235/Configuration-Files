@@ -1,0 +1,38 @@
+# **所有订阅组引用**
+all-proxy-providers: &all-proxy-providers
+  use: []
+
+# **主用订阅组引用**
+primary-proxy-providers: &primary-proxy-providers
+  use: []
+
+# **各种代理提供者（机场）的订阅配置**
+proxy-providers:
+  1.primary1:
+    url: ""
+    path: ""
+    <<: *primary-provider-template
+    override:
+      additional-prefix: ""
+
+  2.primary2:
+    url: ""
+    path: ""
+    <<: *primary-provider-template
+    override:
+      additional-prefix: ""
+
+  3.backup1:
+    url: ""
+    path: ""
+    <<: *backup-provider-template
+    override:
+      additional-prefix: ""
+
+  4.backup2:
+    url: ""
+    path: ""
+    <<: *backup-provider-template
+    override:
+      additional-prefix: ""
+
