@@ -50,6 +50,13 @@
 - **10-ghostty/** - Ghostty 终端模拟器配置
   - `config` - Ghostty 配置文件
 
+- **11-rime/** - Rime 输入法配置
+  - `squirrel-mac/` - macOS 鼠鬚管（Squirrel）配置
+    - `*.custom.yaml` - 自定义配置文件（仅追踪这些文件）
+    - 万象拼音输入方案配置
+    - 自定义主题（微信亮色/暗色）
+    - 键盘映射和布局设置
+
 ## Git Hooks
 
 项目使用自定义 Git Hooks 来确保配置文件的质量：
@@ -67,6 +74,26 @@ git config core.hooksPath .githooks
 1. 克隆仓库到本地
 2. 根据需要复制对应的配置文件到系统配置目录
 3. 部分配置文件包含同步脚本，可直接运行脚本进行同步
+
+### Rime 输入法配置使用
+
+对于 Rime 配置（11-rime 目录）：
+
+1. **macOS (鼠鬚管/Squirrel)**:
+   ```bash
+   # 复制 custom.yaml 文件到 Rime 用户目录
+   cp 11-rime/squirrel-mac/*.custom.yaml ~/Library/Rime/
+
+   # 部署 Rime 配置
+   # 方法1: 在输入法菜单中选择 "重新部署"
+   # 方法2: 使用命令行
+   "/Library/Input Methods/Squirrel.app/Contents/MacOS/Squirrel" --reload
+   ```
+
+2. **配置说明**:
+   - 仅追踪 `*.custom.yaml` 文件，其他生成文件和词库文件不纳入版本控制
+   - 包含万象拼音输入方案和自定义主题配置
+   - 修改配置后需要重新部署才能生效
 
 ## 注意事项
 
