@@ -7,3 +7,7 @@
 *.rar
 *.7z
 *.bak
+
+# Rime/Squirrel - only track custom.yaml files
+11-rime/squirrel-mac/*
+!11-rime/squirrel-mac/*.custom.yaml
