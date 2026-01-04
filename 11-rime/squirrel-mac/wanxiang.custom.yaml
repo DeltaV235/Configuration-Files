@@ -83,7 +83,7 @@ patch:
   # 自定义快捷键
   key_binder/bindings/+:
     # 翻页快捷键:
-    - { when: paging, accept: Control+u, send: Page_Up }
+    - { when: has_menu, accept: Control+u, send: Page_Up }
     - { when: has_menu, accept: Control+d, send: Page_Down }
     # 上下选择候选快捷键:
     - { when: has_menu, accept: "Control+n", send: Right }
