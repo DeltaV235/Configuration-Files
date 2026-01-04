@@ -246,14 +246,14 @@ patch:
 模糊音: 
   __append:
     # n - l
-    - derive/^l/n
-    - derive/^n/l
+    # - derive/^l/n
+    # - derive/^n/l
     # r - y     开头
     # - derive/^y/r
     # - derive/^r/y
     # h - f     开头
-    - derive/^h/f
-    - derive/^f/h
+    # - derive/^h/f
+    # - derive/^f/h
     # r - l     开头
     # - derive/^r/l
     # - derive/^l/r
