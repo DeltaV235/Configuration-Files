@@ -88,9 +88,9 @@ patch:
     # 上下选择候选快捷键:
     - { when: has_menu, accept: "Control+n", send: Right }
     - { when: has_menu, accept: "Control+p", send: Left }
-  # ascii_composer/switch_key:
-    # Shift_L: clear
-    # Shift_R: clear
+  ascii_composer/switch_key:
+    Shift_L: clear
+    Shift_R: clear
     # Shift_L: noop
     # Shift_R: noop
   # 快符功能：
