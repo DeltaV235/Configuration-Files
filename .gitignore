@@ -8,7 +8,8 @@
 *.7z
 *.bak
 
-# Rime/Squirrel - only track custom.yaml and plist files
+# Rime/Squirrel - only track custom.yaml, plist files and user.dict.yaml
 11-rime/squirrel-mac/*
 !11-rime/squirrel-mac/*.custom.yaml
 !11-rime/squirrel-mac/*.plist
+!11-rime/squirrel-mac/user.dict.yaml
