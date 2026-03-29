@@ -290,11 +290,11 @@ proxy-groups:
     # preferred:
     #   - '机场自定义前缀 »指定节点名称' # 假设这是您认为在自动优选中也较稳定的节点
     #   - 's_500 »🇺🇸 美国-01'
-    preferred:
-      - "p2-🇺🇸【北美洲】美国07丨IPLC【10x】"
-      - "p2-🇺🇸【北美洲】美国08丨IPLC【10x】"
-      - "p2-🇺🇸【北美洲】美国05丨超速ᴠ⁶【3x】"
-      - "p2-🇺🇸【北美洲】美国06丨超速ᴠ⁶【3x】"
+    # preferred:
+    #   - "p2-🇺🇸【北美洲】美国07丨IPLC【10x】"
+    #   - "p2-🇺🇸【北美洲】美国08丨IPLC【10x】"
+    #   - "p2-🇺🇸【北美洲】美国05丨超速ᴠ⁶【3x】"
+    #   - "p2-🇺🇸【北美洲】美国06丨超速ᴠ⁶【3x】"
     icon: "https://raw.githubusercontent.com/Mithcell-Ma/icon/refs/heads/main/ai_backup.png"
 
   - name: Anthropic
@@ -311,7 +311,8 @@ proxy-groups:
     # 注意：filter 中的名称要与 additional-prefix: "p2 »" 生效后的显示名称完全匹配
     # **务必替换为从客户端复制的精确名称，多个用 | 分隔**
     # filter: "s_500G »🇺🇸 美国-03|s_500G »🇸🇬 狮城-03|s_500G »🇺🇸 美国-01"
-    filter: "^p2-.*🇺🇸.*美国.*IPLC.*$"
+    # filter: "^p2-.*🇺🇸.*美国.*IPLC.*$"
+    filter: "(?i)(🇺🇸|美国|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)"
     exclude-filter: "(?i)(直连|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local|套餐|建议)"
     icon: "https://raw.githubusercontent.com/Vbaethon/HOMOMIX/refs/heads/main/Icon/Color/Claud.png"
 
