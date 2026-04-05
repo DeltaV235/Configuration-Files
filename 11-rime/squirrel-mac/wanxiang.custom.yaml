@@ -2,6 +2,8 @@
 patch:
   # 默认使用小字集
   # "switches/@11/reset": 1
+  # 默认使用英文
+  "switches/@0/reset": 1
 
   speller/algebra:
     __patch:
@@ -237,13 +239,13 @@ patch:
 
 #以下恢复``造词功能，也就是平时不记录，引导才记录，按需造词，如果你想恢复这个功能，请取消注释----
   #recognizer/patterns/add_user_dict: "^``[A-Za-z/`']*$"      #自造词引导方式
-  #user_dict_set/enable_user_dict: true     
+  #user_dict_set/enable_user_dict: true
   #add_user_dict/enable_user_dict: true
   # 取消注释以开启自动无词频造词
   #add_user_dict/enable_auto_phrase: true
 #按需造词全功能段落结束---------------------------------------------------------------
 
-模糊音: 
+模糊音:
   __append:
     # n - l
     # - derive/^l/n
