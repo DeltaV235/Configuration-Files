@@ -263,8 +263,8 @@ patch:
     # - derive/^k/g
     # - derive/^g/k
     # an - ang
-    - derive/([ui]?)([āáǎàa])ng(.*)$/$1$2n$3
-    - derive/([ui]?)([āáǎàa])n(.*)$/$1$2ng$3
+    # - derive/([ui]?)([āáǎàa])ng(.*)$/$1$2n$3
+    # - derive/([ui]?)([āáǎàa])n(.*)$/$1$2ng$3
     # en - eng
     - derive/([ēéěèe])ng(.*)$/$1n$2
     - derive/([ēéěèe])n(.*)$/$1ng$2
