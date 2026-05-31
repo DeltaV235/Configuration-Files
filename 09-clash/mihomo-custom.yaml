@@ -257,6 +257,14 @@ proxy-groups:
       - AI自动优选 # 备用选项：自动寻找最优美新节点，确保可用性
     icon: "https://github.com/DustinWin/ruleset_geodata/releases/download/icons/ai.png"
 
+  # OpenAI 策略组：手动选择入口，复用 AI 稳定/自动优选节点
+  - name: OpenAI
+    type: select
+    proxies:
+      - AI稳定节点 # 优先推荐：使用经过筛选的稳定节点，减少IP波动
+      - AI自动优选 # 备用选项：自动寻找最优美新节点，确保可用性
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/OpenAI.png"
+
   # --- AI稳定节点：针对 AI 服务优化，优先保持IP稳定 ---
   - name: AI稳定节点
     type: fallback # 策略类型：故障转移，优先使用列表中的第一个可用节点
@@ -271,7 +279,9 @@ proxy-groups:
     # 格式：使用您客户端中显示的完整节点名称，包括 "p2 »" 前缀
     # 注意：filter 中的名称要与 additional-prefix: "p2 »" 生效后的显示名称完全匹配
     # **务必替换为从客户端复制的精确名称，多个用 | 分隔**
-    filter: "^p2-.*🇺🇸.*美国.*$"
+    # 新加坡节点分组在前、美国节点分组在后（反引号 ` 分隔多组正则，节点按组顺序排列）
+    # fallback 会优先连接靠前的可用节点，因此新加坡优先
+    filter: "^p2-.*(?:🇸🇬|新加坡|狮城|SG|Singapore).*$`^p2-.*🇺🇸.*美国.*$"
     exclude-filter: "(?i)(直连|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local|套餐|建议)"
     icon: "https://testingcf.jsdelivr.net/gh/aihdde/Rules@master/icon/ai.png"
 
@@ -283,8 +293,8 @@ proxy-groups:
     interval: 3600 # 测速间隔延长至 1 小时 (3600 秒)，平衡速度与资源消耗,降低切换频率
     tolerance: 50 # RTT 容忍度：适度允许延迟波动，避免过于频繁的切换
     lazy: false
-    # 节点筛选器：仅筛选出美国和新加坡地区的节点 (大小写不敏感)
-    filter: "(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图|🇸🇬|新加坡|狮城|SG|Singapore)" # 仅筛选美新节点
+    # 节点筛选器：筛选新加坡和美国地区的节点，新加坡分组在前（反引号 ` 分隔，按组顺序排列）
+    filter: "(?i)(🇸🇬|新加坡|狮城|SG|Singapore)`(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)" # 新加坡优先，其次美国
     # preferred 参数：指定希望优先选择的节点列表
     # 如果您发现某些节点，虽然测速不总是第一，但实际体验更佳，可以将其名称加入
     # preferred:
@@ -562,10 +572,11 @@ rules:
   - DOMAIN-SUFFIX,lingq.com,AI
   - DOMAIN-SUFFIX,youglish.com,AI
   - DOMAIN-SUFFIX,deepl.com,AI
-  - DOMAIN-SUFFIX,chat.openai.com,AI
+  - DOMAIN-SUFFIX,chat.openai.com,OpenAI
   - DOMAIN-SUFFIX,grammarly.com,AI
   - DOMAIN-KEYWORD,sci-hub,AI
   - RULE-SET,anthropic,Anthropic # Anthropic 规则集
+  - RULE-SET,openai,OpenAI # OpenAI 规则集
   - RULE-SET,ai,AI # AI 规则集
 
   # 学习平台
@@ -702,6 +713,10 @@ rule-providers:
     <<: *domain
     path: ./ruleset/ai
     url: "https://github.com/DustinWin/ruleset_geodata/releases/download/mihomo-ruleset/ai.mrs"
+  openai:
+    <<: *domain
+    path: ./ruleset/openai.mrs
+    url: https://github.com/MetaCubeX/meta-rules-dat/raw/refs/heads/meta/geo/geosite/openai.mrs
   anthropic:
     <<: *domain
     path: ./ruleset/anthropic.mrs
