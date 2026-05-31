@@ -281,7 +281,7 @@ proxy-groups:
     # **务必替换为从客户端复制的精确名称，多个用 | 分隔**
     # 新加坡节点分组在前、美国节点分组在后（反引号 ` 分隔多组正则，节点按组顺序排列）
     # fallback 会优先连接靠前的可用节点，因此新加坡优先
-    filter: "^p2-.*(?:🇸🇬|新加坡|狮城|SG|Singapore).*$`^p2-.*🇺🇸.*美国.*$"
+    filter: "(?i)(🇸🇬|新加坡|狮城|SG|Singapore)`(?i)(🇺🇸|美国|美國|US|united\\s?states|america|usa|洛杉矶|达拉斯|New\\s?York|西雅图)"
     exclude-filter: "(?i)(直连|Traffic|Expire|Expired|过期|剩余|流量|官网|超时|timeout|失效|Invalid|Test|测速|本地|Local|套餐|建议)"
     icon: "https://testingcf.jsdelivr.net/gh/aihdde/Rules@master/icon/ai.png"
 
