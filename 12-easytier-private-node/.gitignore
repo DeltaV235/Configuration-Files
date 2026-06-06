@@ -2,4 +2,5 @@
 config/easytier.toml
 .env
 data/
-log/
+log/*
+!log/.gitkeep
