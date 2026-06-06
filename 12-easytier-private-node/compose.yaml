@@ -1,4 +1,20 @@
 services:
+  easytier-web:
+    image: easytier/easytier:latest
+    container_name: easytier-web
+    restart: unless-stopped
+    network_mode: host
+    environment:
+      - TZ=${TZ:-Asia/Shanghai}
+    volumes:
+      - ./data/web:/app
+    entrypoint: easytier-web-embed
+    command: >
+      --api-server-port ${WEB_PORT:-11211}
+      --api-host http://127.0.0.1:${WEB_PORT:-11211}
+      --config-server-port ${CONFIG_SERVER_PORT:-22020}
+      --config-server-protocol udp
+
   easytier:
     image: easytier/easytier:latest
     container_name: easytier
@@ -13,28 +29,11 @@ services:
       - /dev/net/tun:/dev/net/tun
     volumes:
       - /etc/machine-id:/etc/machine-id:ro
-      - ./config/easytier.toml:/config/easytier.toml:ro
       - ./data:/data
       - ./log:/var/log/easytier
-    command: -c /config/easytier.toml
-
-  easytier-web:
-    image: easytier/easytier:latest
-    container_name: easytier-web
-    restart: unless-stopped
-    network_mode: host
-    environment:
-      - TZ=${TZ:-Asia/Shanghai}
-    volumes:
-      - ./data/web:/data
-    entrypoint: easytier-web-embed
-    command: >
-      --api-server-port ${WEB_PORT:-11211}
-      --api-host http://127.0.0.1:${WEB_PORT:-11211}
-      --config-server-port ${CONFIG_SERVER_PORT:-22020}
-      --config-server-protocol udp
+    command: --credential-file /data/credentials.db -w ${CONFIG_SERVER:-}
     depends_on:
-      - easytier
+      - easytier-web
 
   cloudflared:
     image: cloudflare/cloudflared:latest

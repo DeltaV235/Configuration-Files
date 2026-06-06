@@ -1,5 +1,4 @@
 # 包含真实密钥，不提交到 git
-config/easytier.toml
 .env
 data/
 log/*
