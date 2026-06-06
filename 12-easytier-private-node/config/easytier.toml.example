@@ -9,8 +9,20 @@ ipv4 = "CHANGE_ME_IPV4"
 network_name   = "CHANGE_ME_NETWORK_NAME"
 network_secret = "CHANGE_ME_STRONG_SECRET"
 
+# 基准端口 52950，自动分配：TCP:11010 UDP:11010 WS:11011 WSS:11012 WG:11013
+# 安全组需放行 TCP 11010-11013 + UDP 11010
+listeners = [
+  "11010",
+]
+
 # 凭证数据库路径（挂载至 ./data/）
 credential_file = "/data/credentials.db"
+
+# 接入自建 Web 控制台（config-server 端口与 compose 中保持一致）
+config_server = "udp://127.0.0.1:22020/<CHANGE_ME_WEB_USERNAME>"
+
+[secure_mode]
+enabled = true
 
 [flags]
 # 私有模式：拒绝不匹配 network_name + network_secret 的节点接入或中继
@@ -22,5 +34,12 @@ relay_network_whitelist = "CHANGE_ME_NETWORK_NAME"
 enable_encryption = true
 multi_thread      = true
 
+[file_logger]
+level   = "info"
+file    = "easytier.log"
+dir     = "/var/log/easytier"
+size_mb = 10
+count   = 5
+
 [console_logger]
-level = "info"
+level = "warn"
