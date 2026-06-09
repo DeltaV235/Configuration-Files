@@ -263,7 +263,7 @@ proxy-groups:
     proxies:
       - AI稳定节点 # 优先推荐：使用经过筛选的稳定节点，减少IP波动
       - AI自动优选 # 备用选项：自动寻找最优美新节点，确保可用性
-    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/OpenAI.png"
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/ChatGPT.png"
 
   # --- AI稳定节点：针对 AI 服务优化，优先保持IP稳定 ---
   - name: AI稳定节点
