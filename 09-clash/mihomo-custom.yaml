@@ -363,6 +363,38 @@ proxy-groups:
     <<: *pg
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/GitHub.png"
 
+  - name: Steam
+    hidden: false
+    type: select
+    <<: *pg
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"
+
+  - name: Steam下载
+    hidden: false
+    type: select
+    proxies:
+      - DIRECT
+      - Proxy
+      - 香港故转
+      - 台湾故转
+      - 新加坡故转
+      - 日本故转
+      - 美国故转
+      - 香港自动
+      - 台湾自动
+      - 新加坡自动
+      - 日本自动
+      - 美国自动
+      - 自动选择
+      - 香港节点
+      - 台湾节点
+      - 新加坡节点
+      - 日本节点
+      - 美国节点
+      - 其他节点
+      - 全部节点
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"
+
   - name: Cloudflare-Tunnel
     hidden: false
     type: select
@@ -598,6 +630,8 @@ rules:
   - RULE-SET,speedtest_domain,Speedtest # Speedtest 域名
   - RULE-SET,telegram_domain,Telegram # Telegram 域名 (注意，Telegram IP 已在前面处理)
   - RULE-SET,github_domain,GitHub # GitHub 域名
+  - RULE-SET,steam_cn_domain,Steam下载 # Steam 下载/CDN 域名
+  - RULE-SET,steam_domain,Steam # Steam 页面/社区/商店域名
   - RULE-SET,apple_cn_domain,Apple # Apple 域名
 
   # --- 通用代理规则 (捕获大部分需代理流量) ---
@@ -749,6 +783,14 @@ rule-providers:
     <<: *domain
     path: ./ruleset/github_domain.mrs
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/github.mrs"
+  steam_cn_domain:
+    <<: *domain
+    path: ./ruleset/steam_cn.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam@cn.mrs"
+  steam_domain:
+    <<: *domain
+    path: ./ruleset/steam.mrs
+    url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/steam.mrs"
   netflix_domain:
     <<: *domain
     path: ./ruleset/netflix_domain.mrs
