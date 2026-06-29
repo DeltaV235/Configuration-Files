@@ -31,7 +31,7 @@ services:
       - /etc/machine-id:/etc/machine-id:ro
       - ./data:/data
       - ./log:/var/log/easytier
-    command: --credential-file /data/credentials.db -w ${CONFIG_SERVER:-}
+    command: --hostname Tencent-Cloud-Private-Node --credential-file /data/credentials.db -w ${CONFIG_SERVER:-} --console-log-level warn
     depends_on:
       - easytier-web
 
