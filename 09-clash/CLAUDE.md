@@ -15,7 +15,7 @@ This is the `09-clash/` directory within a larger Configuration-Files repository
 - **mihomo-custom.yaml**: Main Mihomo configuration file with proxy groups, routing rules, DNS settings, and TUN configuration
   - Uses YAML anchors extensively for templating (e.g., `&primary-provider-template`, `&all-proxy-providers`)
   - Automatically sanitized by pre-commit hooks before commits
-  - Includes specialized proxy groups for AI services with consistent-hashing strategy to reduce IP fluctuations
+  - Includes specialized proxy groups for AI services, including a manual stable-node selector to reduce IP fluctuations
 
 - **proxy-providers-secrets.yaml**: Contains real proxy provider configurations with sensitive information
   - Includes three blocks: `all-proxy-providers`, `primary-proxy-providers`, and `proxy-providers`
@@ -154,10 +154,10 @@ Key top-level sections in mihomo-custom.yaml:
 ## AI Service Optimization
 
 The configuration includes specialized proxy groups for AI services (OpenAI, Claude, etc.):
-- **AI稳定节点**: Uses `fallback` type with `consistent-hashing` strategy to minimize IP changes
+- **AI稳定节点**: Uses `select` type for manually pinned stable nodes
 - **AI自动优选**: Uses `url-test` for automatic optimal node selection
 - Both groups filter for US/Singapore nodes and exclude invalid/test nodes
-- Long health-check intervals (1-2 hours) to reduce IP fluctuations
+- Manual selection for stable nodes reduces IP fluctuations; `AI自动优选` remains the automatic fallback option
 
 When modifying AI-related rules, maintain the focus on IP stability over raw speed.
 
