@@ -389,6 +389,12 @@ proxy-groups:
       - 全部节点
     icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Steam.png"
 
+  - name: Xbox
+    hidden: false
+    type: select
+    <<: *pg
+    icon: "https://testingcf.jsdelivr.net/gh/Koolson/Qure@master/IconSet/Color/Game.png"
+
   - name: Cloudflare-Tunnel
     hidden: false
     type: select
@@ -656,6 +662,7 @@ rules:
   - RULE-SET,github_domain,GitHub # GitHub 域名
   - RULE-SET,steam_cn_domain,Steam下载 # Steam 下载/CDN 域名
   - RULE-SET,steam_domain,Steam # Steam 页面/社区/商店域名
+  - RULE-SET,xbox_domain,Xbox # Xbox 域名
   - RULE-SET,apple_cn_domain,Apple # Apple 域名
 
   # --- 通用代理规则 (捕获大部分需代理流量) ---
@@ -853,6 +860,10 @@ rule-providers:
     url: "https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/meta/geo/geosite/apple-cn.mrs"
 
   # 微软
+  xbox_domain:
+    <<: *classical_yaml
+    path: ./ruleset/xbox_domain.yaml
+    url: "https://raw.githubusercontent.com/blackmatrix7/ios_rule_script/master/rule/Clash/Xbox/Xbox.yaml"
   onedrive_domain:
     <<: *domain
     path: ./ruleset/onedrive_domain.mrs
